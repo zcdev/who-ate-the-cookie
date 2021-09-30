@@ -86,7 +86,6 @@
                 let playNow = this.$refs[person.speaker].play();
                     if (playNow !== undefined) {
                         playNow.then(() => {
-                        playNow;
                     }).catch(error => {
                         alert("There's no more cookies for today. Come tomorrow!")
                     });
