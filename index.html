@@ -4,17 +4,17 @@
         <style>
             body {width: 100%;}
             h1 {font-size: 60px;}
-            p {font-size: 20px;}
-            button {width: 30%; font-size: 40px; padding: 15px; margin: 15px;}
+            h2 {font-size: 30px;}
+            .button {width: 40%; font-size: 40px; padding: 15px; margin: 15px;}
         </style>
     </head>
 <div id="app">
 <body>
     <h1>Who ate the cookie? 🍪</h1>
-    <p>Please turn on your speaker. You might not get a cookie (API max calls are limited). First come, first serve.</p>
+    <h2>Please turn on your speaker. You might not get a cookie (API max calls are limited). First come, first serve.</h2>
     <div class="person">
         <div v-for="(person,index) in persons" :key="person.id">
-            <div @click="toSpeak(person)">{{person.name}}</div>
+            <div class="button" @click="toSpeak(person)">{{person.name}}</div>
             <audio :src="`http://api.voicerss.org/?key=ec2a598df23845f7bba6ad55eb8d2328&hl=en-us&v=${person.voice}&src=${person.speak}`" :ref="person.speaker">
         </div>
     </div>
@@ -40,7 +40,7 @@
             {
                 id: '1',
                 name: 'Lisa',
-                voice: 'Linda 👩🏻‍🦰',
+                voice: 'Linda 👩🏾‍🦱',
                 speak: ["Ask David."],
                 click: 0,
                 speaker: 'one'
@@ -48,7 +48,7 @@
             {
                 id: '2',
                 name: 'Sam',
-                voice: 'Mike 👱🏽‍♂️',
+                voice: 'Mike🧔🏽‍♂️',
                 speak: ["It must be Julia."],
                 click: 0,
                 speaker: 'two'
