@@ -83,10 +83,14 @@
                         //console.log("no", person.speak)
                     }
                 }
-                setTimeout(() => {
-                     this.$refs[person.speaker].play();
-                }, 500);
-
+                let playNow = this.$refs.speaker.play();
+                    if (playNow !== undefined) {
+                        playNow.then(function() {
+                        playNow;
+                    }).catch(error => {
+                        alert("There's no more cookies for today. Come tomorrow!")
+                    });
+                }
             }
         }
     }
