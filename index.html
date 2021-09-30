@@ -3,15 +3,18 @@
     <head>
         <style>
             body {width: 100%;}
-            button {width: 30%; font-size: 30px; padding: 15px; margin: 15px;}
+            h1 {font-size: 60px;}
+            p {font-size: 20px;}
+            button {width: 30%; font-size: 40px; padding: 15px; margin: 15px;}
         </style>
     </head>
 <div id="app">
 <body>
-    <h1>Who ate the cookie?</h1>
+    <h1>Who ate the cookie? 🍪</h1>
+    <p>Please turn on your speaker. You might not get a cookie (API max calls are limited). First come, first serve.</p>
     <div class="person">
         <div v-for="(person,index) in persons" :key="person.id">
-            <button @click="toSpeak(person)">{{person.name}}</button>
+            <div @click="toSpeak(person)">{{person.name}}</div>
             <audio :src="`http://api.voicerss.org/?key=ec2a598df23845f7bba6ad55eb8d2328&hl=en-us&v=${person.voice}&src=${person.speak}`" :ref="person.speaker">
         </div>
     </div>
@@ -28,7 +31,7 @@
 
             persons: [{
                 id: '0',
-                name: 'David',
+                name: 'David 👨',
                 voice: 'John',
                 speak: ["I think it's Sam."],
                 click: 0,
@@ -37,7 +40,7 @@
             {
                 id: '1',
                 name: 'Lisa',
-                voice: 'Linda',
+                voice: 'Linda 👩🏻‍🦰',
                 speak: ["Ask David."],
                 click: 0,
                 speaker: 'one'
@@ -45,14 +48,14 @@
             {
                 id: '2',
                 name: 'Sam',
-                voice: 'Mike',
+                voice: 'Mike 👱🏽‍♂️',
                 speak: ["It must be Julia."],
                 click: 0,
                 speaker: 'two'
             },
             {
                 id: '3',
-                name: 'Julia',
+                name: 'Julia 👧🏻',
                 voice: 'Amy',
                 speak: ["Lisa knows."],
                 click: 0,
