@@ -84,12 +84,12 @@
                     }
                 }
                 let playNow = this.$refs[person.speaker].play();
-                    playNow;
                     if (playNow !== undefined) {
                         playNow.then(function() {
                     }).catch(error => {
                         alert("There's no more cookies for today. Come tomorrow!")
                     });
+                    playNow;
                 }
             }
         }
