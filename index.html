@@ -83,7 +83,7 @@
                         //console.log("no", person.speak)
                     }
                 }
-                let playNow = this.$refs.speaker.play();
+                let playNow = this.$refs[person.speaker].play();
                     if (playNow !== undefined) {
                         playNow.then(function() {
                         playNow;
