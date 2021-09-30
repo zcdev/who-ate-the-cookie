@@ -15,7 +15,7 @@
     <div class="person">
         <div v-for="(person,index) in persons" :key="person.id">
             <div class="button" @click="toSpeak(person)">{{person.name}}</div>
-            <audio :src="`http://api.voicerss.org/?key=ec2a598df23845f7bba6ad55eb8d2328&hl=en-us&v=${person.voice}&src=${person.speak}`" :ref="person.speaker">
+            <audio :src="`https://api.voicerss.org/?key=ec2a598df23845f7bba6ad55eb8d2328&hl=en-us&v=${person.voice}&src=${person.speak}`" :ref="person.speaker">
         </div>
     </div>
 </div>
