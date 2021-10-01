@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         body {font-family: 'Arial'; margin:  2em;}
-        h1 {font-size: 3em;}
-        h2 {font-size: 1.5em;}
+        h1 {font-size: 2em; margin-bottom: 0; line-height: 1;}
+        h2 {font-size: 1em;}
         .button {font-size: 2em; padding: 15px; background-color: #eee; border-radius: 20px; text-align: center; }
         .selected {border:  3px solid orange; animation: glow 1.0s infinite alternate;}
         @-webkit-keyframes glow { to { box-shadow: 7px 7px 7px orange; } }
@@ -18,6 +18,8 @@
             grid-gap: 2rem;
         }
         @media screen and (min-width: 480px) {
+            h1 {font-size: 3em;}
+            h2 {font-size: 1.5em;}
             .speakers {
                 grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
             }
