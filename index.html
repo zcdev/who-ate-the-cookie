@@ -6,6 +6,8 @@
             h1 {font-size: 60px; padding: 15px; margin: 0;}
             h2 {font-size: 30px; padding: 15px; margin: 0;}
             .button {width: 25%; font-size: 40px; padding: 15px; margin: 15px; background-color: #eee; border-radius: 20px; text-align: center;}
+            .selected {border:  3px solid orange; animation: glow 1.0s infinite alternate;}
+            @-webkit-keyframes glow { to { box-shadow: 7px 7px 7px orange; } }
         </style>
     </head>
 <div id="app">
@@ -14,7 +16,7 @@
     <h2>Please turn on your speaker. You might not get a cookie (maximum API calls are limited). First come, first serve.</h2>
     <div class="person">
         <div v-for="(person,index) in persons" :key="person.id">
-            <div class="button" @click="toSpeak(person)">{{person.name}}</div>
+            <div  @click="toSpeak(person);toggleSelect(person)" :class="[button, (person.selected? 'selected': '')]">{{person.name}}</div>
             <audio :src="`https://api.voicerss.org/?key=ec2a598df23845f7bba6ad55eb8d2328&hl=en-us&v=${person.voice}&src=${person.speak}`" :ref="person.speaker">
         </div>
     </div>
@@ -34,7 +36,8 @@
                 voice: 'John',
                 speak: ["I think it's Sam."],
                 click: 0,
-                speaker: 'zero'
+                speaker: 'zero',
+                selected: false
             },
             {
                 id: '1',
@@ -42,7 +45,8 @@
                 voice: 'Linda',
                 speak: ["Ask David."],
                 click: 0,
-                speaker: 'one'
+                speaker: 'one',
+                selected: false
             },
             {
                 id: '2',
@@ -50,7 +54,8 @@
                 voice: 'Mike',
                 speak: ["It must be Julia."],
                 click: 0,
-                speaker: 'two'
+                speaker: 'two',
+                selected: false
             },
             {
                 id: '3',
@@ -58,37 +63,45 @@
                 voice: 'Amy',
                 speak: ["Lisa knows."],
                 click: 0,
-                speaker: 'three'
+                speaker: 'three',
+                selected: false
             }],
+            button: 'button',
             lastClick: 0,
             lastSpeak: ["I didn't eat it.", "I don't know.", "Who knows?", "I don't really care.", "Someone in the kitchen.", "I was in the living room.", "There was nothing on the table.", "I only got milk.", "I don't like cookies.", "It's not me.", "Forget it.", "I was not hungry.", "Ok, it's me. Here's a cookie for you."],
             }
         },
         methods: {
             toSpeak(person) {
-                this.$refs[person.speaker].pause();
+                let audio = this.$refs[person.speaker];
+                audio.addEventListener('pause', () => { person.selected = false; });
+                audio.addEventListener('play', () => { person.selected = true; });
+
                 if (person.click === 0) {
                     person.speak = person.speak[0];
-                    //console.log(person.speak);
-                    person.click++; 
+                    person.click++;   
                 } else {
                     if (this.lastClick < this.lastSpeak.length) {
                         person.speak = this.lastSpeak[this.lastClick];
-                        //console.log(this.lastSpeak[this.lastClick])
                         this.lastClick++ 
-                        //console.log(this.lastClick)
                     } else {
                         person.speak = "Game over.";
-                        //console.log("no", person.speak)
-                    }
+                    } 
                 }
+
                 setTimeout(() => {
-                let playNow = this.$refs[person.speaker].play();
+                let playNow = audio.play();
                         playNow.then(() => {
                     }).catch(error => {
+                        person.selected = false;
                         alert("There's no more cookie for today, come tomorrow!")
                     });
+                
                 }, 500);
+            },
+            toggleSelect(person) {
+                person.selected || person.selected
+                this.$refs[person.speaker].addEventListener("ended", () => { person.selected = false; });
             }
         }
     }
