@@ -3,19 +3,33 @@
     <head>
         <style>
             body {width: 100%; font-family: 'Arial';}
-            h1 {font-size: 60px; padding: 15px; margin: 0;}
-            h2 {font-size: 30px; padding: 15px; margin: 0;}
-            .button {width: 25%; font-size: 40px; padding: 15px; margin: 15px; background-color: #eee; border-radius: 20px; text-align: center;}
+            h1 {font-size: 3em; padding: 15px; margin: 0;}
+            h2 {font-size: 2em; padding: 15px; margin: 0;}
+            .button {font-size: 2em; padding: 15px; background-color: #eee; border-radius: 20px; text-align: center;}
             .selected {border:  3px solid orange; animation: glow 1.0s infinite alternate;}
             @-webkit-keyframes glow { to { box-shadow: 7px 7px 7px orange; } }
+            .speakers {
+                display: grid; margin: 15px;
+                grid-template-columns: repeat(4, 1fr);
+                grid-template-rows: 1fr;
+                grid-column-gap: 15px;
+                grid-row-gap: 30px;
+            }
+            @media screen and (max-width: 500px) {
+                .speakers {
+                display: grid; margin: 15px;
+                grid-template-columns: 1fr;
+                grid-template-rows: 4fr;
+                }
+            }
         </style>
     </head>
-<div id="app">
-<body>
+
+<body id="app">
     <h1>Who ate the cookie? 🍪</h1>
     <h2>Please turn on your speaker. You might not get a cookie (maximum API calls are limited). First come, first serve.</h2>
-    <div class="person">
-        <div v-for="(person,index) in persons" :key="person.id">
+    <div class="speakers">
+        <div class="person" v-for="(person,index) in persons" :key="person.id">
             <div  @click="toSpeak(person);toggleSelect(person)" :class="[button, (person.selected? 'selected': '')]">{{person.name}}</div>
             <audio :src="`https://api.voicerss.org/?key=ec2a598df23845f7bba6ad55eb8d2328&hl=en-us&v=${person.voice}&src=${person.speak}`" :ref="person.speaker">
         </div>
