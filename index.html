@@ -2,25 +2,18 @@
 <html lang="en">
     <head>
         <style>
-            body {width: 100%; font-family: 'Arial';}
+            body {font-family: 'Arial';}
             h1 {font-size: 3em; padding: 15px; margin: 0;}
             h2 {font-size: 2em; padding: 15px; margin: 0;}
             .button {font-size: 2em; padding: 15px; background-color: #eee; border-radius: 20px; text-align: center;}
             .selected {border:  3px solid orange; animation: glow 1.0s infinite alternate;}
             @-webkit-keyframes glow { to { box-shadow: 7px 7px 7px orange; } }
             .speakers {
-                display: grid; margin: 15px;
-                grid-template-columns: repeat(4, 1fr);
-                grid-template-rows: 1fr;
+                display: grid;
+                padding: 15px;
+                grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
                 grid-column-gap: 15px;
                 grid-row-gap: 30px;
-            }
-            @media screen and (max-width: 500px) {
-                .speakers {
-                display: grid; margin: 15px;
-                grid-template-columns: 1fr;
-                grid-template-rows: 4fr;
-                }
             }
         </style>
     </head>
