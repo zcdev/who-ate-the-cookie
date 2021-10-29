@@ -94,7 +94,7 @@
             }],
             button: 'button',
             lastClick: 0,
-            lastSpeak: ["I didn't eat it.", "I don't know.", "Who knows?", "I don't really care.", "Someone in the kitchen.", "I was in the living room.", "There was nothing on the table.", "I only got milk.", "I don't like cookies.", "It's not me.", "Forget it.", "I was not hungry.", "Ok, it's me. Here's a cookie for you."],
+            lastSpeak: ["I didn't eat it.", "I don't know.", "Who knows?", "I don't really care.", "Someone in the kitchen.", "I was in the living room.", "There was nothing on the table.", "I only got milk.", "I don't like cookies.", "It's not me.", "Forget it.", "I was not hungry.", "Ok, it's me. Here's a cookie for you."]
             }
         },
         methods: {
@@ -103,16 +103,16 @@
                 audio.addEventListener('pause', () => { person.selected = false; });
                 audio.addEventListener('play', () => { person.selected = true; });
 
-                if (person.click === 0) {
+                if (person.click === 0 && this.lastClick === this.lastSpeak.length) {
+                    person.speak = "Game over.";
+                } else if (person.click === 0) {
                     person.speak = person.speak[0];
-                    person.click++;   
+                    person.click++; 
+                } else if (this.lastClick < this.lastSpeak.length) {
+                    person.speak = this.lastSpeak[this.lastClick];
+                    this.lastClick++ 
                 } else {
-                    if (this.lastClick < this.lastSpeak.length) {
-                        person.speak = this.lastSpeak[this.lastClick];
-                        this.lastClick++ 
-                    } else {
-                        person.speak = "Game over.";
-                    } 
+                    person.speak = "Game over.";
                 }
 
                 setTimeout(() => {
@@ -122,7 +122,6 @@
                         person.selected = false;
                         alert("There's no more cookie for today, come tomorrow!")
                     });
-                
                 }, 500);
             },
             toggleSelect(person) {
