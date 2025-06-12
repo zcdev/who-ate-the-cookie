@@ -18,7 +18,7 @@ export default function App() {
   // Initialize state with character list
   const [persons, setPersons] = useState(personsList)
 
-  // Store one audio instance per character by ID
+  // Initialize refs for the audio instance
   const audioRefs = useRef({})
 
   // Handle character selection when clicked
@@ -30,20 +30,37 @@ export default function App() {
     if (!audioRefs.current[id]) {
       const url = `${BASE_URL}?key=${VOICE_API_KEY}&hl=en-us&v=${person.voice}&src=${encodeURIComponent(person.speak)}`
       audioRefs.current[id] = new Audio(url)
-      
-      // TODO: Debuggin info (remove later)
-      console.log(url)
-      console.log(audioRefs.current[id])
-    }
 
-    // Update selected state and increment click count
-    setPersons(prev =>
-      prev.map(person =>
-        person.id === id
-          ? { ...person, selected: true, click: person.click + 1 }
-          : person
-      )
-    )
+      // Helper function to update state of the character selected
+      function updatePersonSelected(id, selected) {
+        setPersons(prev =>
+          prev.map(person =>
+            person.id === id ? { ...person, selected } : person
+          )
+        )
+      }
+
+      // Store one audio instance per character by ID
+      const audio = audioRefs.current[id]
+
+      // Assign audio events
+      audio.onplay = () => updatePersonSelected(id, true)
+      audio.onended = () => updatePersonSelected(id, false)
+      audio.onerror = () => {
+        alert("There’s no more cookie for today. Come back tomorrow!")
+        updatePersonSelected(id, false)
+      }
+
+      // Play the audio
+      audio.play().catch(() => {
+        alert("Playback failed. Please check your speaker or try again.")
+        updatePersonSelected(id, false)
+      })
+
+      // TODO: Debugging info (remove later)
+      console.log(url)
+      console.log(audio)
+    }
   }
 
   return (
