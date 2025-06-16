@@ -1,8 +1,8 @@
-import { useState, useRef } from 'react'
+import { useState } from 'react'
 import PersonCard from "./components/PersonCard"
 import './App.css'
 
-// List of characters for the game
+// List of the characters and their attributes for the game
 const personsList = [
   { "id": 0, "name": ["David", "👱🏻‍♂️"], "voice": "John", "speak": "I think it’s Sam.", "click": 0, "selected": false },
   { "id": 1, "name": ["Lisa", "👩🏽"], "voice": "Linda", "speak": "Ask David.", "click": 0, "selected": false },
@@ -10,57 +10,76 @@ const personsList = [
   { "id": 3, "name": ["Julia", "👧🏻"], "voice": "Amy", "speak": "Lisa knows.", "click": 0, "selected": false }
 ]
 
-// Set up VoiceRSS constants
+// List of answers for the characters to speak
+const answersList = [
+  "I didn’t eat it.",
+  "I don’t know.",
+  "Who knows?",
+  "I don’t really care.",
+  "Someone in the kitchen.",
+  "I was in the living room.",
+  "There was nothing on the table.",
+  "I only got milk.",
+  "I don’t like cookies.",
+  "It’s not me.",
+  "Forget it.",
+  "I was not hungry.",
+  "Ok, it’s me. Here’s a cookie for you."
+]
+
+// Declare VoiceRSS constants
 const BASE_URL = 'https://api.voicerss.org/'
 const VOICE_API_KEY = 'ec2a598df23845f7bba6ad55eb8d2328'
 
 export default function App() {
-  // Initialize state with character list
+  // Initialize state with the character list
   const [persons, setPersons] = useState(personsList)
 
-  // Initialize refs for the audio instance
-  const audioRefs = useRef({})
+  // Track the total of how many times answers have been spoken
+  const [globalClick, setGlobalClick] = useState(0)
 
-  // Handle character selection when clicked
+  // Handle the current character selection when clicked
   function handlePersonClick(id) {
-    // Find clicked character by ID
+
+    // Find the current character by ID
     const person = persons.find(person => person.id === id)
 
-    // If no audio exists for this character, create it
-    if (!audioRefs.current[id]) {
-      const url = `${BASE_URL}?key=${VOICE_API_KEY}&hl=en-us&v=${person.voice}&src=${encodeURIComponent(person.speak)}`
-      audioRefs.current[id] = new Audio(url)
+    // Assign the current character's voice
+    const voice = person.voice
 
-      // Helper function to update state of the character selected
-      function updatePersonSelected(id, selected) {
-        setPersons(prev =>
-          prev.map(person =>
-            person.id === id ? { ...person, selected } : person
-          )
-        )
-      }
+    // Assign new click count and speak value
+    let newClick = person.click
+    let newSpeak = ""
 
-      // Store one audio instance per character by ID
-      const audio = audioRefs.current[id]
-
-      // Assign audio events
-      audio.onplay = () => updatePersonSelected(id, true)
-      audio.onended = () => updatePersonSelected(id, false)
-      audio.onerror = () => {
-        alert("There’s no more cookie for today. Come back tomorrow!")
-        updatePersonSelected(id, false)
-      }
-
-      // Play the audio
-      audio.play().catch(() => {
-        alert("Playback failed. Please check your speaker or try again.")
-        updatePersonSelected(id, false)
-      })
-
-      // TODO: Debugging info (remove later)
-      console.log(url)
-      console.log(audio)
+    // Evaluate click counts to determine what the current character should speak
+    if (newClick === 0) {
+      newSpeak = person.speak
+    } else if (globalClick < answersList.length) {
+      newSpeak = answersList[globalClick]
+      // Update the total clicks as the index value of the answersList
+      setGlobalClick(prev => prev + 1);
+    } else {
+      newSpeak = "Game over."
     }
+
+    // Increment the click count on the selected character
+    newClick++
+
+    // Parse the URL to access the character's voice
+    const audioUrl = `${BASE_URL}?key=${VOICE_API_KEY}&hl=en-us&v=${voice}&src=${encodeURIComponent(newSpeak)}`
+
+    // Update the character's state
+    setPersons(prev =>
+      prev.map(person =>
+        person.id === id ? { ...person, click: newClick, speak: newSpeak, selected: true } : { ...person, selected: false }
+      )
+    )
+
+    // Initiate the Audio instance by the URL
+    const audio = new Audio(audioUrl)
+
+    // Play the audio
+    audio.play()
   }
 
   return (
