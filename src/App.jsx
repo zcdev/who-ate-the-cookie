@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import PersonCard from "./components/PersonCard"
 import './App.css'
 
@@ -38,14 +38,15 @@ export default function App() {
   // Track the total of how many times answers have been spoken
   const [globalClick, setGlobalClick] = useState(0)
 
+  const [speakerID, setSpeakerID] = useState(null)
+
+  const audioRef = useRef(null)
+
   // Handle the current character selection when clicked
   function handlePersonClick(id) {
 
     // Find the current character by ID
     const person = persons.find(person => person.id === id)
-
-    // Assign the current character's voice
-    const voice = person.voice
 
     // Assign new click count and speak value
     let newClick = person.click
@@ -64,9 +65,7 @@ export default function App() {
 
     // Increment the click count on the selected character
     newClick++
-
-    // Parse the URL to access the character's voice
-    const audioUrl = `${BASE_URL}?key=${VOICE_API_KEY}&hl=en-us&v=${voice}&src=${encodeURIComponent(newSpeak)}`
+    setSpeakerID(person.id)
 
     // Update the character's state
     setPersons(prev =>
@@ -74,13 +73,22 @@ export default function App() {
         person.id === id ? { ...person, click: newClick, speak: newSpeak, selected: true } : { ...person, selected: false }
       )
     )
-
-    // Initiate the Audio instance by the URL
-    const audio = new Audio(audioUrl)
-
-    // Play the audio
-    audio.play()
   }
+
+  const speaker = persons.find(person => person.id === speakerID)
+
+  // Parse the URL to access the character's voice
+  const audioURL = speaker ? `${BASE_URL}?key=${VOICE_API_KEY}&hl=en-us&v=${speaker.voice}&src=${encodeURIComponent(speaker.speak)}` : null
+
+  useEffect(() => {
+
+    if (!audioURL) return
+    audioRef.current = new Audio(audioURL)
+    audioRef.current.play().catch(error => {
+      console.log("Audio play failed", error)
+    })
+
+  }, [audioURL])
 
   return (
     <main>
