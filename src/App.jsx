@@ -2,12 +2,13 @@ import { useState, useRef, useEffect, useReducer } from 'react'
 import PersonCard from "./components/PersonCard"
 import './App.css'
 
+
 // List of the characters and their attributes for the game
 const personsList = [
-  { "id": 0, "name": ["David", "👱🏻‍♂️"], "voice": "John", "message": "I think it’s Sam.", "click": 0, "selected": false },
-  { "id": 1, "name": ["Lisa", "👩🏽"], "voice": "Linda", "message": "Ask David.", "click": 0, "selected": false },
-  { "id": 2, "name": ["Sam", "🧑🏿‍🦱"], "voice": "Mike", "message": "It must be Julia.", "click": 0, "selected": false },
-  { "id": 3, "name": ["Julia", "👧🏻"], "voice": "Amy", "message": "Lisa knows.", "click": 0, "selected": false }
+  { "id": 0, "name": ["David", "👱🏻‍♂️"], "voice": "John", "message": "I think it’s Sam." },
+  { "id": 1, "name": ["Lisa", "👩🏽"], "voice": "Linda", "message": "Ask David." },
+  { "id": 2, "name": ["Sam", "🧑🏿‍🦱"], "voice": "Mike", "message": "It must be Julia." },
+  { "id": 3, "name": ["Julia", "👧🏻"], "voice": "Amy", "message": "Lisa knows." }
 ]
 
 // List of follow-up messages for the characters to speak in sequence
@@ -31,18 +32,16 @@ const messageList = [
 const initialGameState = {
   speaker: {},
   click: 0,
-  sharedClick: 0,
-  message: "",
-  voice: ""
+  turnCount: 0,
+  message: null,
+  voice: null
 }
 
 function gameReducer(state, action) {
   switch (action.type) {
     case 'GET_SPEAKER':
       // Get the charater data
-      const person = action.payload
-
-      // DEBUG: console.log("speaker", person)
+      const person = action.payload.speaker
 
       // If click count is zero, update the speaker, assign message, and increment click
       if (state.click === 0) {
@@ -50,21 +49,24 @@ function gameReducer(state, action) {
           ...state,
           speaker: person,
           message: person.message,
+          voice: person.voice,
           click: state.click + 1
         }
-      // Check where we are at the message list
-      } else if (state.sharedClick < messageList.length) {
+        // Check where we are at the message list
+      } else if (state.turnCount < messageList.length) {
         return {
           ...state,
-          message: messageList[state.sharedClick],
-          sharedClick: state.sharedClick + 1,
+          message: messageList[state.turnCount],
+          voice: person.voice,
+          turnCount: state.turnCount + 1,
           click: state.click + 1
         }
-      // If reached the end of the message list
+        // If reached the end of the message list
       } else {
         return {
           ...state,
-          message: "Game over."
+          message: "Game over.",
+          voice: person.voice
         }
       }
 
@@ -82,9 +84,41 @@ export default function App() {
 
   // Get speaker from click handler
   function getSpeaker(speaker) {
-    // DEBUG: console.log("getSpeaker:", speaker)
     dispatch({ type: 'GET_SPEAKER', payload: { speaker } })
   }
+
+  // VoiceRSS configuration
+  const BASE_URL = 'https://api.voicerss.org/'
+  const VOICE_API_KEY = 'ec2a598df23845f7bba6ad55eb8d2328'
+
+  // Store the current speaker's voice and message
+  let speaker = state.speaker
+  let voice = state.voice
+  let message = state.message
+
+  // Pass the current speaker's voice and message to the VoiceRSS audio source via API key
+  let audioURL = speaker ? `${BASE_URL}?key=${VOICE_API_KEY}&hl=en-us&v=${voice}&src=${encodeURIComponent(message)}` : null
+
+  // Default audioRef
+  const audioRef = useRef(null)
+
+  // Play the generated voice message when the speaker or message changes
+  useEffect(() => {
+
+    // Create a new audio instance and assign to the audioRef
+    audioRef.current = new Audio(audioURL)
+
+    // Get the audio object
+    const audio = audioRef.current
+
+    // Play audio and handle errors if failed
+    audio.play().then(() => {
+      console.log("Audio is playing.")
+    }).catch(error => {
+      console.error("Audio failed to play.")
+    })
+
+  }, [audioURL])
 
   return (
     <main>
