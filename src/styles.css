@@ -26,6 +26,8 @@ html {
 
 body {
   margin: 2rem 3rem;
+  display: flex;
+  justify-content: center;
 }
 
 h1 {
@@ -52,7 +54,7 @@ h2 {
 
 .speakers {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  grid-template-columns: 150px 150px 150px 150px;
   grid-gap: 2rem;
   margin-top: 2rem;
   list-style-type: none;
