@@ -1,7 +1,5 @@
 import { useState, useRef, useEffect, useReducer } from 'react'
 import PersonCard from "./components/PersonCard"
-import './App.css'
-
 
 // List of the characters and their attributes for the game
 const personsList = [
