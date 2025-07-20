@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect, useReducer } from 'react'
 import PersonCard from "./components/PersonCard"
+import MessageBoard from './components/MessageBoard'
 
 // List of the characters and their attributes for the game
 const personsList = [
@@ -128,9 +129,9 @@ export default function App() {
 
   return (
     <main>
-      <h1>Who ate the cookie? <span className="cookie">🍪</span></h1>
+      <h1>Who ate the cookie? <span className="large-cookie">🍪</span></h1>
       <h2>Please turn on your speaker.</h2>
-      <p className="announcement">You might not get a cookie. First come, first serve.</p>
+      <p className="announcement">You might not get a cookie. <br className="break" />First come, first serve.</p><span className="small-cookie">🍪</span>
       <ul className="speakers">
         {persons.map((person) => (
           <PersonCard
@@ -141,6 +142,7 @@ export default function App() {
           />
         ))}
       </ul>
+      <MessageBoard message={state.message} />
     </main>
   )
 }
