@@ -3,10 +3,10 @@ import PersonCard from "./components/PersonCard"
 
 // List of the characters and their attributes for the game
 const personsList = [
-  { "id": 0, "name": ["David", "👱🏻‍♂️"], "voice": "John", "message": "I think it’s Sam." },
-  { "id": 1, "name": ["Lisa", "👩🏽"], "voice": "Linda", "message": "Ask David." },
-  { "id": 2, "name": ["Sam", "🧑🏿‍🦱"], "voice": "Mike", "message": "It must be Julia." },
-  { "id": 3, "name": ["Julia", "👧🏻"], "voice": "Amy", "message": "Lisa knows." }
+  { "id": 0, "name": ["David", "👱🏻‍♂️"], "voice": "John", "message": "I think it’s Sam.", "active": false },
+  { "id": 1, "name": ["Lisa", "👩🏽"], "voice": "Linda", "message": "Ask David.", "active": false},
+  { "id": 2, "name": ["Sam", "🧑🏿‍🦱"], "voice": "Mike", "message": "It must be Julia.", "active": false },
+  { "id": 3, "name": ["Julia", "👧🏻"], "voice": "Amy", "message": "Lisa knows.", "active": false }
 ]
 
 // List of follow-up messages for the characters to speak in sequence
@@ -32,7 +32,9 @@ const initialGameState = {
   click: 0,
   turnCount: 0,
   message: null,
-  voice: null
+  voice: null,
+  active: false,
+  selectedID: 0
 }
 
 function gameReducer(state, action) {
@@ -48,7 +50,9 @@ function gameReducer(state, action) {
           speaker: person,
           message: person.message,
           voice: person.voice,
-          click: state.click + 1
+          click: state.click + 1,
+          active: person.active = true,
+          selectedID: person.id
         }
         // Check where we are at the message list
       } else if (state.turnCount < messageList.length) {
@@ -57,14 +61,18 @@ function gameReducer(state, action) {
           message: messageList[state.turnCount],
           voice: person.voice,
           turnCount: state.turnCount + 1,
-          click: state.click + 1
+          click: state.click + 1,
+          active: person.active = true,
+          selectedID: person.id
         }
         // If reached the end of the message list
       } else {
         return {
           ...state,
           message: "Game over.",
-          voice: person.voice
+          voice: person.voice,
+          active: person.active = true,
+          selectedID: person.id
         }
       }
 
@@ -128,6 +136,7 @@ export default function App() {
           <PersonCard
             key={person.id}
             person={person}
+            selectedID={state.selectedID}
             onClick={() => getSpeaker(person)}
           />
         ))}

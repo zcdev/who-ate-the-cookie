@@ -1,6 +1,7 @@
-export default function PersonCard({ person, onClick }) {
+export default function PersonCard({ person, onClick, selectedID }) {
+    console.log("person", person)
     return (
-        <li className={`person ${person.selected ? 'active' : ''}`}
+        <li className={`person ${person.active === true && selectedID === person.id ? 'active' : ''}`}
             onClick={onClick}
             key={person.id}>
             <p className="name">{person.name[0]}</p>
