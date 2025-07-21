@@ -105,6 +105,10 @@ h2 {
   border: 0;
 }
 
+.button:first-child {
+  margin-right: 2rem;
+}
+
 .message-board {
   margin: 2rem 0 1rem;
   padding: 2rem;

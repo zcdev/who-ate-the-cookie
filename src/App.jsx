@@ -34,10 +34,11 @@ const initialGameState = {
   click: 0,
   turnCount: 0,
   message: "",
-  voice: null,
+  voice: "",
   active: false,
   isActive: false,
-  selectedID: 0
+  isMuted: false,
+  selectedID: null
 }
 
 function gameReducer(state, action) {
@@ -85,9 +86,18 @@ function gameReducer(state, action) {
     case 'START_OVER':
       return {
         ...state,
+        click: 0,
+        turnCount: 0,
         message: "",
         active: false,
-        isActive: false
+        isActive: false,
+        isMuted: false
+      }
+
+    case 'MUTE_TOGGLE':
+      return {
+        ...state,
+        isMuted: !state.isMuted
       }
 
     default:
@@ -102,24 +112,32 @@ export default function App() {
   // Initialize scores by reducer function
   const [state, dispatch] = useReducer(gameReducer, initialGameState)
 
+  // Store the current speaker's voice and message
+  let speaker = state.speaker
+  let voice = state.voice
+  let message = state.message
+
+  // Store the current state of muted sound
+  let silence = state.isMuted
+
   // Get speaker from click handler
   function getSpeaker(speaker) {
     dispatch({ type: 'GET_SPEAKER', payload: { speaker } })
   }
 
   // Restart game handler
-  function startOver(speaker) {
-    dispatch({ type: 'START_OVER', payload: { speaker } })
+  function startOver() {
+    dispatch({ type: 'START_OVER' })
+  }
+
+  // Toggle to mute or resume sound
+  function muteToggle() {
+    dispatch({ type: 'MUTE_TOGGLE' })
   }
 
   // VoiceRSS configuration
   const BASE_URL = 'https://api.voicerss.org/'
   const VOICE_API_KEY = 'ec2a598df23845f7bba6ad55eb8d2328'
-
-  // Store the current speaker's voice and message
-  let speaker = state.speaker
-  let voice = state.voice
-  let message = state.message
 
   // Pass the current speaker's voice and message to the VoiceRSS audio source via API key
   let audioURL = speaker ? `${BASE_URL}?key=${VOICE_API_KEY}&hl=en-us&v=${voice}&src=${encodeURIComponent(message)}` : null
@@ -136,12 +154,14 @@ export default function App() {
     // Get the audio object
     const audio = audioRef.current
 
-    // Play audio and handle errors if failed
-    audio.play().then(() => {
-      console.log("Audio is playing.")
-    }).catch(error => {
-      console.error("Audio failed to play.")
-    })
+    // Check if sound should be muted, if yes, then don't play the audio
+    if (!silence) {
+      audio.play().then(() => {
+        console.log("Audio is playing.")
+      }).catch(error => {
+        console.error("Audio failed to play.")
+      })
+    }
 
   }, [audioURL])
 
@@ -164,8 +184,11 @@ export default function App() {
       </ul>
       <MessageBoard message={state.message} />
       <section className="game-control">
-        <Button startOver={startOver} aria-label="Start over">
+        <Button onClick={startOver} aria-label="Start over">
           Start Over
+        </Button>
+        <Button onClick={muteToggle} aria-label={silence ? "Resume Sound" : "Mute Sound"}>
+          {silence ? "Resume Sound" : "Mute Sound"}
         </Button>
       </section>
     </main>
