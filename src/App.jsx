@@ -1,11 +1,12 @@
 import { useState, useRef, useEffect, useReducer } from 'react'
 import PersonCard from "./components/PersonCard"
 import MessageBoard from './components/MessageBoard'
+import Button from './components/Button'
 
 // List of the characters and their attributes for the game
 const personsList = [
   { "id": 0, "name": ["David", "👱🏻‍♂️"], "voice": "John", "message": "I think it’s Sam.", "active": false },
-  { "id": 1, "name": ["Lisa", "👩🏽"], "voice": "Linda", "message": "Ask David.", "active": false},
+  { "id": 1, "name": ["Lisa", "👩🏽"], "voice": "Linda", "message": "Ask David.", "active": false },
   { "id": 2, "name": ["Sam", "🧑🏿‍🦱"], "voice": "Mike", "message": "It must be Julia.", "active": false },
   { "id": 3, "name": ["Julia", "👧🏻"], "voice": "Amy", "message": "Lisa knows.", "active": false }
 ]
@@ -29,12 +30,13 @@ const messageList = [
 
 // Initial game state
 const initialGameState = {
-  speaker: {},
+  speaker: null,
   click: 0,
   turnCount: 0,
-  message: null,
+  message: "",
   voice: null,
   active: false,
+  isActive: false,
   selectedID: 0
 }
 
@@ -52,7 +54,8 @@ function gameReducer(state, action) {
           message: person.message,
           voice: person.voice,
           click: state.click + 1,
-          active: person.active = true,
+          active: true,
+          isActive: true,
           selectedID: person.id
         }
         // Check where we are at the message list
@@ -63,7 +66,8 @@ function gameReducer(state, action) {
           voice: person.voice,
           turnCount: state.turnCount + 1,
           click: state.click + 1,
-          active: person.active = true,
+          active: true,
+          isActive: true,
           selectedID: person.id
         }
         // If reached the end of the message list
@@ -72,9 +76,18 @@ function gameReducer(state, action) {
           ...state,
           message: "Game over.",
           voice: person.voice,
-          active: person.active = true,
+          active: true,
+          isActive: true,
           selectedID: person.id
         }
+      }
+
+    case 'START_OVER':
+      return {
+        ...state,
+        message: "",
+        active: false,
+        isActive: false
       }
 
     default:
@@ -92,6 +105,11 @@ export default function App() {
   // Get speaker from click handler
   function getSpeaker(speaker) {
     dispatch({ type: 'GET_SPEAKER', payload: { speaker } })
+  }
+
+  // Restart game handler
+  function startOver(speaker) {
+    dispatch({ type: 'START_OVER', payload: { speaker } })
   }
 
   // VoiceRSS configuration
@@ -139,11 +157,17 @@ export default function App() {
             key={person.id}
             person={person}
             selectedID={state.selectedID}
+            isActive={state.isActive}
             onClick={() => getSpeaker(person)}
           />
         ))}
       </ul>
       <MessageBoard message={state.message} />
+      <section className="game-control">
+        <Button startOver={startOver} aria-label="Start over">
+          Start Over
+        </Button>
+      </section>
     </main>
   )
 }
