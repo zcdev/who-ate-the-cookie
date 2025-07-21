@@ -44,7 +44,7 @@ h1 {
 h2 {
   font-size: 1.5rem;
   font-weight: 400;
-  margin-top: 1rem;
+  margin: 1rem 0 0.5rem;
 }
 
 /* === UI element styles === */
@@ -54,21 +54,26 @@ h2 {
 
 .sound-status {
   background-color: #eee;
-  color:#d2691e;
+  color: #d2691e;
   font-size: 1rem;
   padding: 0.3rem 0.5rem;
   border-radius: 10px;
 }
 
 .message-board {
-  margin: 2rem 0 1rem;
+  margin: 1.8rem 0;
   padding: 2rem;
   font-size: 1.3rem;
   background-color: #DFCFBF;
   border-radius: 20px;
 }
 
-/* === Game control button styles === */
+/* === Game control and button styles === */
+.game-control {
+  display: flex;
+  justify-content: center;
+}
+
 .button {
   background-color: #875546;
   color: #fff;
@@ -110,7 +115,7 @@ h2 {
   display: grid;
   grid-template-columns: 150px 150px;
   grid-gap: 1rem;
-  margin-top: 4rem;
+  margin-top: 3.7rem;
   list-style-type: none;
 }
 
@@ -148,6 +153,10 @@ h2 {
   body {
     background-color: #333;
   }
+
+  header {
+    color: #eee;
+  }
 }
 
 /* === Mobile-first responsive layout for larger screens === */
@@ -158,12 +167,17 @@ h2 {
 
   h2 {
     font-size: 1.6em;
+    margin-top: 1rem;
+  }
+
+  .sound-status {
+    margin-left: 1rem;
   }
 
   .speakers {
     grid-template-columns: 150px 150px 150px 150px;
     grid-gap: 2rem;
-    margin-top: 2rem;
+    margin-top: 3rem;
   }
 
   .message-board {
@@ -172,6 +186,10 @@ h2 {
     font-size: 1.3rem;
     background-color: #DFCFBF;
     border-radius: 20px;
+  }
+
+  .game-control {
+    display: block;
   }
 
   /* Show large cookie */
