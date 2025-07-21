@@ -113,12 +113,12 @@ export default function App() {
   const [state, dispatch] = useReducer(gameReducer, initialGameState)
 
   // Store the current speaker's voice and message
-  let speaker = state.speaker
-  let voice = state.voice
-  let message = state.message
+  const speaker = state.speaker
+  const voice = state.voice
+  const message = state.message
 
   // Store the current state of muted sound
-  let silence = state.isMuted
+  const silence = state.isMuted
 
   // Get speaker from click handler
   function getSpeaker(speaker) {
