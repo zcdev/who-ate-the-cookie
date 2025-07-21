@@ -66,6 +66,17 @@ h2 {
   font-size: 1.3rem;
   background-color: #DFCFBF;
   border-radius: 20px;
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
+}
+
+.default-display {
+  margin: 1.8rem 0;
+  font-size: 1.3rem;
+}
+
+.show {
+  opacity: 1;
 }
 
 /* === Game control and button styles === */
@@ -135,16 +146,64 @@ h2 {
   font-size: 4em;
 }
 
-/* Style for selected speaker */
-.active {
-  border: 3px solid orange;
-  animation: glow 1.0s infinite alternate;
+/* === Styles and animations for the selected speaker in active state === */
+
+.active-glow {
+  animation: glow 1s ease-in-out infinite alternate;
 }
 
-/* Animation for selected speaker */
+/* Glow effect for the cards */
 @keyframes glow {
   to {
-    box-shadow: 7px 7px 7px orange;
+    box-shadow:
+      0 0 10px 4px orange,
+      0 0 20px 8px #ebeccf,
+      0 0 30px 12px #fff;
+  }
+}
+
+.active-zoom {
+  animation: zoom 1.5s cubic-bezier(0, 0, 0, 0) forwards;
+  transform: translate3d(0, 0, 0);
+}
+
+/* Zoom in/out effect for the emojis */
+@keyframes zoom {
+
+  10%,
+  90% {
+    transform: translate3d(-1px, 0, 0);
+    transform: scale(1.0, 1.0);
+  }
+
+  20%,
+  80% {
+    transform: translate3d(2px, 0, 0);
+    transform: scale(1.1, 1.1);
+  }
+
+  30%,
+  50%,
+  70% {
+    transform: translate3d(0, -4px, 0);
+  }
+
+  40%,
+  60% {
+    transform: translate3d(0, 4px, 0);
+  }
+}
+
+/* === Game over cookie styles === */
+
+.game-over-glow {
+  animation: gameover 4.5s infinite;
+}
+
+/* Spin cookie infinitely in circular clockwise motion */
+@keyframes gameover {
+  100% {
+    transform: rotate(360deg);
   }
 }
 

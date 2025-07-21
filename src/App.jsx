@@ -39,6 +39,8 @@ const initialGameState = {
   active: false,
   isActive: false,
   isMuted: false,
+  isClicked: false,
+  isGameOver: false,
   selectedID: null
 }
 
@@ -80,6 +82,7 @@ function gameReducer(state, action) {
           voice: person.voice,
           active: true,
           isActive: true,
+          isGameOver: true,
           selectedID: person.id
         }
       }
@@ -92,6 +95,8 @@ function gameReducer(state, action) {
         message: "",
         active: false,
         isActive: false,
+        isClicked: false,
+        isGameOver: false,
         isMuted: false
       }
 
@@ -99,6 +104,12 @@ function gameReducer(state, action) {
       return {
         ...state,
         isMuted: !state.isMuted
+      }
+
+    case 'CLICK_TOGGLE':
+      return {
+        ...state,
+        isClicked: !state.isClicked
       }
 
     default:
@@ -117,13 +128,12 @@ export default function App() {
   const speaker = state.speaker
   const voice = state.voice
   const message = state.message
-
-  // Store the current state of muted sound
-  const silence = state.isMuted
+  const selectedID = state.selectedID
 
   // Get speaker from click handler
   function getSpeaker(speaker) {
     dispatch({ type: 'GET_SPEAKER', payload: { speaker } })
+    dispatch({ type: 'CLICK_TOGGLE' })
   }
 
   // Restart game handler
@@ -166,21 +176,30 @@ export default function App() {
 
   }, [audioURL])
 
+  const isActive = state.isActive
+  const isClicked = state.isClicked
+  const silence = state.isMuted
+  const isGameOver = state.isGameOver
+
   return (
     <main>
-      <Header silence={silence} />
+      <Header silence={silence} isGameOver={isGameOver} />
       <ul className="speakers" aria-label="List of speakers to interact">
         {persons.map((person) => (
           <PersonCard
             key={person.id}
             person={person}
-            selectedID={state.selectedID}
-            isActive={state.isActive}
+            selectedID={selectedID}
+            isActive={isActive}
+            isClicked={isClicked}
             onClick={() => getSpeaker(person)}
           />
         ))}
       </ul>
-      <MessageBoard message={state.message} />
+      <MessageBoard message={message}
+      isActive={isActive}
+      isClicked={isClicked}
+      />
       <section className="game-control">
         <Button onClick={startOver} aria-label="Start over">
           Start Over
