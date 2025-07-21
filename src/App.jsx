@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect, useReducer } from 'react'
+import Header from "./components/Header"
 import PersonCard from "./components/PersonCard"
 import MessageBoard from './components/MessageBoard'
 import Button from './components/Button'
@@ -167,10 +168,7 @@ export default function App() {
 
   return (
     <main>
-      <h1>Who ate the cookie? <span className="large-cookie" aria-hidden="true">🍪</span></h1>
-      <h2>Please turn on your speaker.</h2>
-      <p className="announcement">You might not get a cookie. <br className="break" />First come, first serve.</p>
-      <span className="small-cookie" aria-hidden="true">🍪</span>
+      <Header silence={silence} />
       <ul className="speakers" aria-label="List of speakers to interact">
         {persons.map((person) => (
           <PersonCard

@@ -47,14 +47,48 @@ h2 {
   margin-top: 1rem;
 }
 
+/* === UI element styles === */
+.announcement {
+  font-size: 1.2em;
+}
+
+.sound-status {
+  background-color: #eee;
+  color:#d2691e;
+  font-size: 1rem;
+  padding: 0.3rem 0.5rem;
+  border-radius: 10px;
+}
+
+.message-board {
+  margin: 2rem 0 1rem;
+  padding: 2rem;
+  font-size: 1.3rem;
+  background-color: #DFCFBF;
+  border-radius: 20px;
+}
+
+/* === Game control button styles === */
+.button {
+  background-color: #875546;
+  color: #fff;
+  padding: 1rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 10px;
+  border: 0;
+}
+
+.button:first-child {
+  margin-right: 2rem;
+}
+
+/* === Show/Hide styles === */
+
 /* Hide large cookie */
 .large-cookie {
   font-size: 1.5em;
   display: none;
-}
-
-.announcement {
-  font-size: 1.2em;
 }
 
 /*  Align small cookie to the right and closer to the top */
@@ -71,6 +105,7 @@ h2 {
   display: block;
 }
 
+/* === Game character styles === */
 .speakers {
   display: grid;
   grid-template-columns: 150px 150px;
@@ -95,28 +130,6 @@ h2 {
   font-size: 4em;
 }
 
-.button {
-  background-color: #875546;
-  color: #fff;
-  padding: 1rem;
-  font-size: 1rem;
-  font-weight: 600;
-  border-radius: 10px;
-  border: 0;
-}
-
-.button:first-child {
-  margin-right: 2rem;
-}
-
-.message-board {
-  margin: 2rem 0 1rem;
-  padding: 2rem;
-  font-size: 1.3rem;
-  background-color: #DFCFBF;
-  border-radius: 20px;
-}
-
 /* Style for selected speaker */
 .active {
   border: 3px solid orange;
@@ -137,7 +150,7 @@ h2 {
   }
 }
 
-/* === Mobile first responsive layout for larger screens === */
+/* === Mobile-first responsive layout for larger screens === */
 @media (min-width: 700px) {
   h1 {
     font-size: 3em;
