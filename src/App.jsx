@@ -4,7 +4,7 @@ import PersonCard from "./components/PersonCard"
 import MessageBoard from './components/MessageBoard'
 import Button from './components/Button'
 
-// List of the characters and their attributes for the game
+// List of characters and their attributes
 const personsList = [
   { "id": 0, "name": ["David", "👱🏻‍♂️"], "voice": "John", "message": "I think it’s Sam.", "active": false },
   { "id": 1, "name": ["Lisa", "👩🏽"], "voice": "Linda", "message": "Ask David.", "active": false },
@@ -12,7 +12,7 @@ const personsList = [
   { "id": 3, "name": ["Julia", "👧🏻"], "voice": "Amy", "message": "Lisa knows.", "active": false }
 ]
 
-// List of follow-up messages for the characters to speak in sequence
+// Sequence of follow-up responses
 const messageList = [
   "I didn’t eat it.",
   "I don’t know.",
@@ -41,16 +41,18 @@ const initialGameState = {
   isMuted: false,
   isClicked: false,
   isGameOver: false,
+  isAnimated: false,
   selectedID: null
 }
 
+// Reducer to manage all game-related state transitions
 function gameReducer(state, action) {
   switch (action.type) {
     case 'GET_SPEAKER':
       // Get the charater data
       const person = action.payload.speaker
 
-      // If click count is zero, update the speaker, assign message, and increment click
+      // First speaker: show their initial message
       if (state.click === 0) {
         return {
           ...state,
@@ -62,7 +64,7 @@ function gameReducer(state, action) {
           isActive: true,
           selectedID: person.id
         }
-        // Check where we are at the message list
+        // Show next message in sequence
       } else if (state.turnCount < messageList.length) {
         return {
           ...state,
@@ -74,7 +76,7 @@ function gameReducer(state, action) {
           isActive: true,
           selectedID: person.id
         }
-        // If reached the end of the message list
+        // End of message list
       } else {
         return {
           ...state,
@@ -87,6 +89,7 @@ function gameReducer(state, action) {
         }
       }
 
+    // Reset game state
     case 'START_OVER':
       return {
         ...state,
@@ -112,16 +115,23 @@ function gameReducer(state, action) {
         isClicked: !state.isClicked
       }
 
+    case 'ANIMATE_TOGGLE':
+      return {
+        ...state,
+        isActive: false,
+        isAnimated: !state.isAnimated
+      }
+
     default:
       throw new Error(`Unhandled action type: ${action.type}`)
   }
 }
 
 export default function App() {
-  // Initialize state with the character list
+  // Game characters
   const [persons, setPersons] = useState(personsList)
 
-  // Initialize scores by reducer function
+  // Global game state
   const [state, dispatch] = useReducer(gameReducer, initialGameState)
 
   // Store the current speaker's voice and message
@@ -130,7 +140,7 @@ export default function App() {
   const message = state.message
   const selectedID = state.selectedID
 
-  // Get speaker from click handler
+  // Handle speaker selection
   function getSpeaker(speaker) {
     dispatch({ type: 'GET_SPEAKER', payload: { speaker } })
     dispatch({ type: 'CLICK_TOGGLE' })
@@ -141,12 +151,17 @@ export default function App() {
     dispatch({ type: 'START_OVER' })
   }
 
-  // Toggle to mute or resume sound
+  // Toggle mute setting
   function muteToggle() {
     dispatch({ type: 'MUTE_TOGGLE' })
   }
 
-  // VoiceRSS configuration
+  // Toggle animation mode
+  function animateToggle() {
+    dispatch({ type: 'ANIMATE_TOGGLE' })
+  }
+
+  // VoiceRSS API config
   const BASE_URL = 'https://api.voicerss.org/'
   const VOICE_API_KEY = 'ec2a598df23845f7bba6ad55eb8d2328'
 
@@ -156,7 +171,7 @@ export default function App() {
   // Default audioRef
   const audioRef = useRef(null)
 
-  // Play the generated voice message when the speaker or message changes
+  // Play voice message when speaker or message changes
   useEffect(() => {
 
     // Create a new audio instance and assign to the audioRef
@@ -177,13 +192,16 @@ export default function App() {
   }, [audioURL])
 
   const isActive = state.isActive
+  const isAnimated = state.isAnimated
   const isClicked = state.isClicked
   const silence = state.isMuted
   const isGameOver = state.isGameOver
+  const silentMode = silence ? "Resume Sound" : "Mute Sound"
+  const animationMode = state.isAnimated ? "Start Animation" : "Stop Animation"
 
   return (
     <main>
-      <Header silence={silence} isGameOver={isGameOver} />
+      <Header silence={silence} isGameOver={isGameOver} isAnimated={isAnimated} />
       <ul className="speakers" aria-label="List of speakers to interact">
         {persons.map((person) => (
           <PersonCard
@@ -191,21 +209,25 @@ export default function App() {
             person={person}
             selectedID={selectedID}
             isActive={isActive}
+            isAnimated={isAnimated}
             isClicked={isClicked}
             onClick={() => getSpeaker(person)}
           />
         ))}
       </ul>
       <MessageBoard message={message}
-      isActive={isActive}
-      isClicked={isClicked}
+        isAnimated={isAnimated}
+        isClicked={isClicked}
       />
       <section className="game-control">
         <Button onClick={startOver} aria-label="Start over">
           Start Over
         </Button>
-        <Button onClick={muteToggle} aria-label={silence ? "Resume Sound" : "Mute Sound"}>
-          {silence ? "Resume Sound" : "Mute Sound"}
+        <Button onClick={muteToggle} aria-label={silentMode}>
+          {silentMode}
+        </Button>
+        <Button onClick={animateToggle} aria-label={animationMode}>
+          {animationMode}
         </Button>
       </section>
     </main>

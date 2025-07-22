@@ -48,6 +48,7 @@ h2 {
 }
 
 /* === UI element styles === */
+
 .announcement {
   font-size: 1.2em;
 }
@@ -60,6 +61,11 @@ h2 {
   border-radius: 10px;
 }
 
+.default-display {
+  margin: 1.8rem 0;
+  font-size: 1.3rem;
+}
+
 .message-board {
   margin: 1.8rem 0;
   padding: 2rem;
@@ -70,16 +76,17 @@ h2 {
   transition: opacity 1s ease-in-out;
 }
 
-.default-display {
-  margin: 1.8rem 0;
-  font-size: 1.3rem;
-}
-
 .show {
   opacity: 1;
 }
 
+.static {
+  opacity: 1;
+  transition: none;
+}
+
 /* === Game control and button styles === */
+
 .game-control {
   display: flex;
   justify-content: center;
@@ -95,8 +102,8 @@ h2 {
   border: 0;
 }
 
-.button:first-child {
-  margin-right: 2rem;
+.button:first-child, button:nth-child(2) {
+  margin-right: 1rem;
 }
 
 /* === Show/Hide styles === */
@@ -122,6 +129,7 @@ h2 {
 }
 
 /* === Game character styles === */
+
 .speakers {
   display: grid;
   grid-template-columns: 150px 150px;
@@ -208,6 +216,7 @@ h2 {
 }
 
 /* === Dark mode styles === */
+
 @media (prefers-color-scheme: dark) {
   body {
     background-color: #333;
@@ -219,6 +228,7 @@ h2 {
 }
 
 /* === Mobile-first responsive layout for larger screens === */
+
 @media (min-width: 700px) {
   h1 {
     font-size: 3em;
@@ -249,6 +259,10 @@ h2 {
 
   .game-control {
     display: block;
+  }
+
+  button:first-child, button:nth-child(2) {
+    margin-right: 2rem;
   }
 
   /* Show large cookie */
