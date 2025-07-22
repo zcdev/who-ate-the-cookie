@@ -37,11 +37,10 @@ const initialGameState = {
   message: "",
   voice: "",
   active: false,
-  isActive: false,
   isMuted: false,
   isClicked: false,
   isGameOver: false,
-  isAnimated: false,
+  isAnimated: true,
   selectedID: null
 }
 
@@ -118,7 +117,6 @@ function gameReducer(state, action) {
     case 'ANIMATE_TOGGLE':
       return {
         ...state,
-        isActive: false,
         isAnimated: !state.isAnimated
       }
 
@@ -134,29 +132,36 @@ export default function App() {
   // Global game state
   const [state, dispatch] = useReducer(gameReducer, initialGameState)
 
-  // Store the current speaker's voice and message
-  const speaker = state.speaker
-  const voice = state.voice
-  const message = state.message
-  const selectedID = state.selectedID
+  // Reducer state object
+  const {
+    isAnimated,
+    isClicked,
+    isMuted,
+    isGameOver,
+    speaker,
+    voice,
+    message,
+    selectedID
+  } = state
 
-  // Handle speaker selection
+  // User interactive mode toggling logics
+  const silentMode = isMuted ? "Resume Sound" : "Mute Sound"
+  const animationMode = isAnimated ? "Stop Animation" : "Start Animation"
+
+  // Dispatch handlers
   function getSpeaker(speaker) {
     dispatch({ type: 'GET_SPEAKER', payload: { speaker } })
     dispatch({ type: 'CLICK_TOGGLE' })
   }
 
-  // Restart game handler
   function startOver() {
     dispatch({ type: 'START_OVER' })
   }
 
-  // Toggle mute setting
   function muteToggle() {
     dispatch({ type: 'MUTE_TOGGLE' })
   }
 
-  // Toggle animation mode
   function animateToggle() {
     dispatch({ type: 'ANIMATE_TOGGLE' })
   }
@@ -166,7 +171,9 @@ export default function App() {
   const VOICE_API_KEY = 'ec2a598df23845f7bba6ad55eb8d2328'
 
   // Pass the current speaker's voice and message to the VoiceRSS audio source via API key
-  let audioURL = speaker ? `${BASE_URL}?key=${VOICE_API_KEY}&hl=en-us&v=${voice}&src=${encodeURIComponent(message)}` : null
+  const audioURL = speaker
+    ? `${BASE_URL}?key=${VOICE_API_KEY}&hl=en-us&v=${voice}&src=${encodeURIComponent(message)}`
+    : null
 
   // Default audioRef
   const audioRef = useRef(null)
@@ -181,7 +188,7 @@ export default function App() {
     const audio = audioRef.current
 
     // Check if sound should be muted, if yes, then don't play the audio
-    if (!silence) {
+    if (!isMuted && audio) {
       audio.play().then(() => {
         console.log("Audio is playing.")
       }).catch(error => {
@@ -189,28 +196,18 @@ export default function App() {
       })
     }
 
-  }, [audioURL])
-
-  const isActive = state.isActive
-  const isAnimated = state.isAnimated
-  const isClicked = state.isClicked
-  const silence = state.isMuted
-  const isGameOver = state.isGameOver
-  const silentMode = silence ? "Resume Sound" : "Mute Sound"
-  const animationMode = state.isAnimated ? "Start Animation" : "Stop Animation"
+  }, [audioURL, isMuted])
 
   return (
     <main>
-      <Header silence={silence} isGameOver={isGameOver} isAnimated={isAnimated} />
+      <Header isMuted={isMuted} isGameOver={isGameOver} isAnimated={isAnimated} />
       <ul className="speakers" aria-label="List of speakers to interact">
         {persons.map((person) => (
           <PersonCard
             key={person.id}
             person={person}
             selectedID={selectedID}
-            isActive={isActive}
             isAnimated={isAnimated}
-            isClicked={isClicked}
             onClick={() => getSpeaker(person)}
           />
         ))}

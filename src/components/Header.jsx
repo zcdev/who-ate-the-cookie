@@ -1,28 +1,30 @@
 import { useEffect, useState } from 'react'
 
-export default function Header({ silence, isGameOver, isAnimated }) {
-    // Track whether the game-over glow effect is toggled
-    const [isAnimating, setIsAnimating] = useState(isAnimated)
+export default function Header({ isMuted, isGameOver, isAnimated }) {
+
+    // Track animation state for spinning cookie
+    const [isAnimating, setIsAnimating] = useState(false)
 
     useEffect(() => {
-        // Disable glow effect if animation mode is off
-        if (isGameOver === true) {
-            // Then toggle the state
+        // Animate spinning cookie if game is over
+        if (isGameOver === true && isAnimated === true) {
             setIsAnimating(true)
+        } else {
+            setIsAnimating(false)
         }
-    }, []) // Only runs once on mount
+    }, [isGameOver, isAnimated]) // Re-run when game is over and animation mode is on
 
     return (
         <header>
-            <h1>Who ate the cookie? <span className={`large-cookie${isAnimating ? " game-over-glow" : ""}`} aria-hidden="true">🍪</span></h1>
+            <h1>Who ate the cookie? <span className={`large-cookie${isAnimating === true ? " spinning-cookie" : ""}`} aria-hidden="true">🍪</span></h1>
             <h2>Please turn on your speaker.
                 <br className="break" />
-                <span className="sound-status">{`${silence ? "Game is in silent mode," : "Game sound is on,"}
-                ${isAnimated ? "animation is paused." : "animation is playing."}`}
+                <span className="sound-status">{`${isMuted === true ? "Game in silent mode," : "Sound is on,"}
+                ${isAnimated === true ? "animation paused." : "animation is on."}`}
                 </span>
             </h2>
             <p className="announcement">You might not get a cookie. <br className="break" />First come, first serve.</p>
-            <span className={`small-cookie${isAnimating ? " game-over-glow" : ""}`} aria-hidden="true">🍪</span>
+            <span className={`small-cookie${isAnimating === true ? " spinning-cookie" : ""}`} aria-hidden="true">🍪</span>
         </header>
     )
 }

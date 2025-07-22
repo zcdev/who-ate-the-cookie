@@ -72,17 +72,29 @@ h2 {
   font-size: 1.3rem;
   background-color: #DFCFBF;
   border-radius: 20px;
-  opacity: 0;
-  transition: opacity 1s ease-in-out;
 }
 
-.show {
-  opacity: 1;
+/* Message Board fade-in-out animation */
+.message-board.animate {
+  animation: fade-in-out 3s forwards;
 }
 
-.static {
-  opacity: 1;
-  transition: none;
+@keyframes fade-in-out {
+  0% {
+    opacity: 0;
+  }
+
+  25% {
+    opacity: 1;
+  }
+
+  75% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
 }
 
 /* === Game control and button styles === */
@@ -102,7 +114,8 @@ h2 {
   border: 0;
 }
 
-.button:first-child, button:nth-child(2) {
+.button:first-child,
+button:nth-child(2) {
   margin-right: 1rem;
 }
 
@@ -204,7 +217,7 @@ h2 {
 
 /* === Game over cookie styles === */
 
-.game-over-glow {
+.spinning-cookie {
   animation: gameover 4.5s infinite;
 }
 
@@ -261,9 +274,10 @@ h2 {
     display: block;
   }
 
-.button:first-child, button:nth-child(2) {
-  margin-right: 2rem;
-}
+  .button:first-child,
+  button:nth-child(2) {
+    margin-right: 2rem;
+  }
 
   /* Show large cookie */
   .large-cookie {
