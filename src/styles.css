@@ -261,9 +261,9 @@ h2 {
     display: block;
   }
 
-  button:first-child, button:nth-child(2) {
-    margin-right: 2rem;
-  }
+.button:first-child, button:nth-child(2) {
+  margin-right: 2rem;
+}
 
   /* Show large cookie */
   .large-cookie {
