@@ -19,8 +19,8 @@ export default function Header({ isMuted, isGameOver, isAnimated }) {
             <h1>Who ate the cookie? <span className={`large-cookie${isAnimating === true ? " spinning-cookie" : ""}`} aria-hidden="true">🍪</span></h1>
             <h2>Please turn on your speaker.
                 <br className="break" />
-                <span className="sound-status">{`${isMuted === true ? "Game in silent mode," : "Sound is on,"}
-                ${isAnimated === true ? "animation paused." : "animation is on."}`}
+                <span className="game-mode">{`${isMuted === true ? "Game in silent mode," : "Sound is on,"}
+                ${isAnimated === true ? "animation is on." : "animation paused."}`}
                 </span>
             </h2>
             <p className="announcement">You might not get a cookie. <br className="break" />First come, first serve.</p>
