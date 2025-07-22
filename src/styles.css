@@ -53,7 +53,7 @@ h2 {
   font-size: 1.2em;
 }
 
-.sound-status {
+.game-mode {
   background-color: #eee;
   color: #d2691e;
   font-size: 1rem;
@@ -252,7 +252,7 @@ button:nth-child(2) {
     margin-top: 1rem;
   }
 
-  .sound-status {
+  .game-mode {
     margin-left: 1rem;
   }
 
