@@ -60,7 +60,6 @@ function gameReducer(state, action) {
           voice: person.voice,
           click: state.click + 1,
           active: true,
-          isActive: true,
           selectedID: person.id
         }
         // Show next message in sequence
@@ -72,7 +71,6 @@ function gameReducer(state, action) {
           turnCount: state.turnCount + 1,
           click: state.click + 1,
           active: true,
-          isActive: true,
           selectedID: person.id
         }
         // End of message list
@@ -82,7 +80,6 @@ function gameReducer(state, action) {
           message: "Game over.",
           voice: person.voice,
           active: true,
-          isActive: true,
           isGameOver: true,
           selectedID: person.id
         }
@@ -96,7 +93,6 @@ function gameReducer(state, action) {
         turnCount: 0,
         message: "",
         active: false,
-        isActive: false,
         isClicked: false,
         isGameOver: false,
         isMuted: false
@@ -189,19 +185,23 @@ export default function App() {
 
     // Check if sound should be muted, if yes, then don't play the audio
     if (!isMuted && audio) {
-      audio.play().then(() => {
-        console.log("Audio is playing.")
-      }).catch(error => {
-        console.error("Audio failed to play.")
-      })
+      audio.play()
+        .then(() => console.log("Audio is playing."))
+        .catch(error => console.error("Audio failed to play."))
     }
 
   }, [audioURL, isMuted])
 
   return (
     <main>
-      <Header isMuted={isMuted} isGameOver={isGameOver} isAnimated={isAnimated} />
-      <ul className="speakers" aria-label="List of speakers to interact">
+      <Header
+        isMuted={isMuted}
+        isGameOver={isGameOver}
+        isAnimated={isAnimated}
+      />
+      <ul
+        className="speakers"
+        aria-label="List of speakers to interact">
         {persons.map((person) => (
           <PersonCard
             key={person.id}
@@ -212,18 +212,26 @@ export default function App() {
           />
         ))}
       </ul>
-      <MessageBoard message={message}
+      <MessageBoard
+        message={message}
         isAnimated={isAnimated}
         isClicked={isClicked}
       />
-      <section className="game-control">
-        <Button onClick={startOver} aria-label="Start over">
+      <section
+        className="game-control">
+        <Button
+          onClick={startOver}
+          aria-label="Start over">
           Start Over
         </Button>
-        <Button onClick={muteToggle} aria-label={silentMode}>
+        <Button
+          onClick={muteToggle}
+          aria-label={silentMode}>
           {silentMode}
         </Button>
-        <Button onClick={animateToggle} aria-label={animationMode}>
+        <Button
+          onClick={animateToggle}
+          aria-label={animationMode}>
           {animationMode}
         </Button>
       </section>

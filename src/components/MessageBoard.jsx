@@ -9,10 +9,22 @@ export default function MessageBoard({ message, isClicked, isAnimated }) {
     const text = message ? message : "Game on: click any of us to find out!"
 
     // Animated message display when a character is clicked
-    const MessageDisplay = ({ text }) => { return <section className={`message-board ${isAnimating === true ? 'animate' : ''}`} aria-live="polite" role="status">{text}</section> }
+    const MessageDisplay = ({ text }) => {
+        return <section
+            className={`message-board ${isAnimating === true ? 'animate' : ''}`}
+            aria-live="polite"
+            role="status">
+            {text}
+        </section>
+    }
 
     // Default static display when no message has been triggered
-    const DefaultMessage = ({ text }) => { return <section className="default-display">{text}</section> }
+    const DefaultMessage = ({ text }) => {
+        return <section
+            className="default-display">
+            {text}
+        </section>
+    }
 
     useEffect(() => {
         // Determine CSS animation class should apply or not
@@ -25,7 +37,10 @@ export default function MessageBoard({ message, isClicked, isAnimated }) {
 
     return (
         <>
-            {message ? <MessageDisplay text={text} /> : <DefaultMessage text={text} />}
+            {message
+                ? <MessageDisplay text={text} />
+                : <DefaultMessage text={text} />
+            }
         </>
     )
 }

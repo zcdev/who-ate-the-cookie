@@ -242,7 +242,7 @@ button:nth-child(2) {
 /* === Mobile-first responsive layout for larger screens === */
 
 @media (min-width: 500px) {
-  .cookie-small img {
+  .cookie-small {
     position: relative;
     display: block;
     width: 60px;
