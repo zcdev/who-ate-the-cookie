@@ -6,10 +6,10 @@ import Button from './components/Button'
 
 // List of characters and their attributes
 const personsList = [
-  { "id": 0, "name": ["David", "👱🏻‍♂️"], "voice": "John", "message": "I think it’s Sam.", "active": false },
-  { "id": 1, "name": ["Lisa", "👩🏽"], "voice": "Linda", "message": "Ask David.", "active": false },
-  { "id": 2, "name": ["Sam", "🧑🏿‍🦱"], "voice": "Mike", "message": "It must be Julia.", "active": false },
-  { "id": 3, "name": ["Julia", "👧🏻"], "voice": "Amy", "message": "Lisa knows.", "active": false }
+  { "id": 0, "name": "David", "img": "icon_david.png", "voice": "John", "message": "I think it’s Sam.", "active": false },
+  { "id": 1, "name": "Lisa", "img": "icon_lisa.png", "voice": "Linda", "message": "Ask David.", "active": false },
+  { "id": 2, "name": "Sam", "img": "icon_sam.png", "voice": "Mike", "message": "It must be Julia.", "active": false },
+  { "id": 3, "name": "Julia", "img": "icon_julia.png", "voice": "Amy", "message": "Lisa knows.", "active": false }
 ]
 
 // Sequence of follow-up responses

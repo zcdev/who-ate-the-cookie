@@ -122,18 +122,17 @@ button:nth-child(2) {
 /* === Show/Hide styles === */
 
 /* Hide large cookie */
-.large-cookie {
-  font-size: 1.5em;
+.cookie-large {
   display: none;
 }
 
 /*  Align small cookie to the right and closer to the top */
-.small-cookie {
+.cookie-small {
+  position: relative;
   display: block;
-  font-size: 3rem;
-  line-height: 0;
+  width: 60px;
   margin-left: 80%;
-  margin-top: -30px;
+  margin-top: -19%;
 }
 
 /* Show line break on smaller devices */
@@ -163,8 +162,8 @@ button:nth-child(2) {
   font-size: 1.5em;
 }
 
-.emoji {
-  font-size: 4em;
+.icon img {
+  width: 100px;
 }
 
 /* === Styles and animations for the selected speaker in active state === */
@@ -242,6 +241,16 @@ button:nth-child(2) {
 
 /* === Mobile-first responsive layout for larger screens === */
 
+@media (min-width: 500px) {
+  .cookie-small img {
+    position: relative;
+    display: block;
+    width: 60px;
+    margin-left: 62%;
+    margin-top: -15%;
+  }
+}
+
 @media (min-width: 700px) {
   h1 {
     font-size: 3em;
@@ -280,14 +289,16 @@ button:nth-child(2) {
   }
 
   /* Show large cookie */
-  .large-cookie {
-    font-size: 1.5em;
-    display: inline-block;
-    vertical-align: -10px;
+  .cookie-large {
+    width: 70px;
+    display: block;
+    position: relative;
+    left: 66%;
+    margin-top: -9%;
   }
 
   /* Hide small cookie */
-  .small-cookie {
+  .cookie-small {
     display: none;
   }
 
