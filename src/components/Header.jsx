@@ -13,13 +13,13 @@ export default function Header({ isMuted, isGameOver, isAnimated }) {
         const animationClass = isAnimating
             ? "spinning-cookie"
             : ""
-        const className = `${sizeClass} ${animationClass}`
+        const className = `${sizeClass} ${animationClass}`.trim()
 
         return (
             <img
                 className={className}
                 src="/assets/icons/icon_cookie.png"
-                alt="Cookie icon"
+                alt={`${size.charAt(0).toUpperCase() + size.slice(1)} chocolate chip cookie`}
             />
         )
     }
@@ -31,7 +31,7 @@ export default function Header({ isMuted, isGameOver, isAnimated }) {
         } else {
             setIsAnimating(false)
         }
-    }, [isGameOver, isAnimated]) // Re-run when game is over and animation mode is on
+    }, [isGameOver]) // Re-run when game is over and animation mode is on
 
     return (
         <header>
@@ -58,14 +58,10 @@ export default function Header({ isMuted, isGameOver, isAnimated }) {
             </h2>
             <p
                 className="announcement">
-                You might not get a cookie.
-                <br
-                    className="break"
-                />
-                First come, first serve.
+                You might not get a cookie.<br className="break"/> First come, first serve.
             </p>
             <CookieIcon
-                size="size"
+                size="small"
                 isAnimating={isAnimated}
             />
         </header>

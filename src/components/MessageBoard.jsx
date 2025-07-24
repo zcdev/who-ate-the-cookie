@@ -12,8 +12,7 @@ export default function MessageBoard({ message, isClicked, isAnimated }) {
     const MessageDisplay = ({ text }) => {
         return <section
             className={`message-board ${isAnimating === true ? 'animate' : ''}`}
-            aria-live="polite"
-            role="status">
+            aria-hidden="true">
             {text}
         </section>
     }
@@ -21,7 +20,8 @@ export default function MessageBoard({ message, isClicked, isAnimated }) {
     // Default static display when no message has been triggered
     const DefaultMessage = ({ text }) => {
         return <section
-            className="default-display">
+            className="default-display"
+            aria-hidden="true">
             {text}
         </section>
     }
