@@ -42,7 +42,7 @@ h1 {
 }
 
 h2 {
-  font-size: 1.5rem;
+  font-size: 1.4rem;
   font-weight: 400;
   margin: 1rem 0 0.5rem;
 }
@@ -50,7 +50,7 @@ h2 {
 /* === UI element styles === */
 
 .announcement {
-  font-size: 1.2em;
+  font-size: 1.2rem;
 }
 
 .game-mode {
@@ -64,7 +64,7 @@ h2 {
 
 .default-display {
   margin: 1.8rem 0;
-  font-size: 1.3rem;
+  font-size: 1.2rem;
 }
 
 .message-board {
@@ -147,13 +147,15 @@ button:nth-child(2) {
   display: grid;
   grid-template-columns: 150px 150px;
   grid-gap: 1rem;
-  margin-top: 3.7rem;
+  margin-top: 2rem;
   list-style-type: none;
+  place-items: center;
 }
 
 .person {
-  padding: 15px;
+  padding: 25px;
   background-color: #eee;
+  color: #007AFF;
   border-radius: 20px;
   text-align: center;
   vertical-align: middle;
@@ -167,6 +169,7 @@ button:nth-child(2) {
 
 .name {
   font-size: 1.5em;
+  margin-bottom: 10px;
 }
 
 .icon img {
@@ -275,7 +278,6 @@ button:nth-child(2) {
   .speakers {
     grid-template-columns: 150px 150px 150px 150px;
     grid-gap: 2rem;
-    margin-top: 3rem;
   }
 
   .message-board {

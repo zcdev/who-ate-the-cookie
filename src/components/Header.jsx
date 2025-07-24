@@ -40,7 +40,7 @@ export default function Header({ isMuted, isGameOver, isAnimated }) {
                 size="large"
                 isAnimating={isAnimated}
             />
-            <h2>Please turn on your speaker.
+            <h2>Please turn on your speakers.
                 <br
                     className="break"
                 />
