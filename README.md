@@ -22,6 +22,30 @@ The final build supports both visual and auditory experiences, following modern 
 - 🔁 Replay the game anytime with a single click.
 - ⚠️ *Voice not playing?* The free **VoiceRSS** API has a daily limit of 350 requests.
 
+## 🫶 Accessibility (A11y)
+
+This app includes accessibility enhancements to support a more inclusive experience:
+
+- **Keyboard Navigation:** All interactive elements (e.g., character cards, cookie) are fully navigable using Tab, Enter, and Space.
+
+- **Screen Reader Support:** Descriptive aria-labels, meaningful alt text, and live regions are used to ensure important information is announced.
+
+- **Focus Management:** Visual focus outlines and controlled focus behavior help users stay oriented during interactions.
+
+- **Motion Preferences:** Animation effects respect users with prefers-reduced-motion enabled in system settings.
+
+- **Semantic Roles:** Interactive UI components include semantic roles such as button for better assistive tech compatibility.
+
+Accessibility was verified using:
+
+- [Lighthouse](https://developer.chrome.com/docs/lighthouse/accessibility/scoring) audit (100% score)
+
+- Keyboard-only testing
+
+- VoiceOver screen reader testing on macOS
+
+We believe everyone should be able to discover who ate the cookie — regardless of ability. 🍪
+
 ## 👩🏻‍💻 Tech Stack
 
 - [React 19](https://react.dev/)
