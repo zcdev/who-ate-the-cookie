@@ -3,6 +3,7 @@ import Header from "./components/Header"
 import PersonCard from "./components/PersonCard"
 import MessageBoard from './components/MessageBoard'
 import Button from './components/Button'
+import checkAPIError from './utils/check-api-error.js'
 
 // List of characters and their attributes
 const personsList = [
@@ -41,12 +42,14 @@ const initialGameState = {
   isClicked: false,
   isGameOver: false,
   isAnimated: true,
+  isCookieAvail: true,
   selectedID: null
 }
 
 // Reducer to manage all game-related state transitions
 function gameReducer(state, action) {
   switch (action.type) {
+    // Character card click
     case 'GET_SPEAKER':
       // Get the charater data
       const person = action.payload.speaker
@@ -62,7 +65,7 @@ function gameReducer(state, action) {
           active: true,
           selectedID: person.id
         }
-        // Show next message in sequence
+      // Show next message in sequence
       } else if (state.turnCount < messageList.length) {
         return {
           ...state,
@@ -73,7 +76,7 @@ function gameReducer(state, action) {
           active: true,
           selectedID: person.id
         }
-        // End of message list
+      // End of message list
       } else {
         return {
           ...state,
@@ -85,7 +88,7 @@ function gameReducer(state, action) {
         }
       }
 
-    // Reset game state
+    // Reset game state at the Start Over button
     case 'START_OVER':
       return {
         ...state,
@@ -98,22 +101,32 @@ function gameReducer(state, action) {
         isMuted: false
       }
 
+    // Toggle sound at the Mute Sound button
     case 'MUTE_TOGGLE':
       return {
         ...state,
         isMuted: !state.isMuted
       }
 
+    // Track character clicks for MessageBoard to conditionally apply animation
     case 'CLICK_TOGGLE':
       return {
         ...state,
         isClicked: !state.isClicked
       }
 
+    // Toggle animation at the Stop Animation button
     case 'ANIMATE_TOGGLE':
       return {
         ...state,
         isAnimated: !state.isAnimated
+      }
+
+    // Update cookie availability if API reached the limit cap: 350 calls/day
+    case 'COOKIE_UNAVAILABLE':
+      return {
+        ...state,
+        isCookieAvail: false
       }
 
     default:
@@ -131,9 +144,9 @@ export default function App() {
   // Reducer state object
   const {
     isAnimated,
-    isClicked,
     isMuted,
     isGameOver,
+    isCookieAvail,
     speaker,
     voice,
     message,
@@ -144,29 +157,31 @@ export default function App() {
   const silentMode = isMuted ? "Resume Sound" : "Mute Sound"
   const animationMode = isAnimated ? "Stop Animation" : "Start Animation"
 
-  // Dispatch handlers
+  // Get speaker data on click
   function getSpeaker(speaker) {
     dispatch({ type: 'GET_SPEAKER', payload: { speaker } })
-    dispatch({ type: 'CLICK_TOGGLE' })
   }
 
+  // Start Over button dispatch action
   function startOver() {
     dispatch({ type: 'START_OVER' })
   }
 
+  // Mute Sound button dispatch action
   function muteToggle() {
     dispatch({ type: 'MUTE_TOGGLE' })
   }
 
+  // Stop Animation button dispatch action
   function animateToggle() {
     dispatch({ type: 'ANIMATE_TOGGLE' })
   }
 
-  // VoiceRSS API config
+  // VoiceRSS API configs
   const BASE_URL = 'https://api.voicerss.org/'
   const VOICE_API_KEY = 'ec2a598df23845f7bba6ad55eb8d2328'
 
-  // Pass the current speaker's voice and message to the VoiceRSS audio source via API key
+  // Insert the current speaker's voice and message to the VoiceRSS audio URL format
   const audioURL = speaker
     ? `${BASE_URL}?key=${VOICE_API_KEY}&hl=en-us&v=${voice}&src=${encodeURIComponent(message)}`
     : null
@@ -183,11 +198,16 @@ export default function App() {
     // Get the audio object
     const audio = audioRef.current
 
+    // Check API response as text by fetching the audioURL and update cookie availability via dispatch
+    checkAPIError(audioURL, dispatch)
+
     // Check if sound should be muted, if yes, then don't play the audio
     if (!isMuted && audio) {
       audio.play()
         .then(() => console.log("Audio is playing."))
-        .catch(error => console.error("Audio failed to play."))
+        .catch(error => {
+          console.error("Audio failed to play.")
+        })
     }
 
   }, [audioURL, isMuted])
@@ -215,7 +235,7 @@ export default function App() {
       <MessageBoard
         message={message}
         isAnimated={isAnimated}
-        isClicked={isClicked}
+        isCookieAvail={isCookieAvail}
       />
       <section
         className="game-control">

@@ -1,46 +1,54 @@
 import { useEffect, useState } from 'react'
 
-export default function MessageBoard({ message, isClicked, isAnimated }) {
+export default function MessageBoard({ message, isClicked, isAnimated, isCookieAvail }) {
 
-    // Track animation state for fade-in effect
+    // Track animation state for the fade-in-out effect
     const [isAnimating, setIsAnimating] = useState(false)
 
-    // Determine message text content
-    const text = message ? message : "Game on: click any of us to find out!"
-
-    // Animated message display when a character is clicked
-    const MessageDisplay = ({ text }) => {
-        return <section
+    // Fade in and out when there is a message to display
+    const MessageDisplay = ({message}) => (
+        <section
             className={`message-board ${isAnimating === true ? 'animate' : ''}`}
             aria-hidden="true">
-            {text}
+            {message}
         </section>
-    }
+    )
 
     // Default static display when no message has been triggered
-    const DefaultMessage = ({ text }) => {
-        return <section
+    const DefaultMessage = () => (
+        <section
             className="default-display"
             aria-hidden="true">
-            {text}
+            Game on: click any of us to find out!
         </section>
-    }
+    )
+
+    // Message to display when there's no more cookie (API limit reached)
+    const EndMessage = () => (
+        <section
+            className="default-display"
+            aria-hidden="true">
+            There's no more cookie for the day. Come again tomorrow! 😏
+        </section>
+    )
 
     useEffect(() => {
-        // Determine CSS animation class should apply or not
+        // Determine CSS animation should apply or not
         if (isAnimated === true) {
             setIsAnimating(true)
         } else {
             setIsAnimating(false)
         }
-    }, [isClicked]) // Re-run on each character click
+    }, [isClicked]) // Re-apply animation when every time a character is clicked
 
-    return (
-        <>
-            {message
-                ? <MessageDisplay text={text} />
-                : <DefaultMessage text={text} />
-            }
-        </>
-    )
+    // Render messages upon cookie availability
+    if (isCookieAvail === true) {
+        if (message) {
+            return <MessageDisplay message={message} />
+        } else {
+            return <DefaultMessage />
+        }   
+    } else {
+        return <EndMessage />
+    }
 }
