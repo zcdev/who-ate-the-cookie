@@ -155,11 +155,15 @@ button:nth-child(2) {
 .person {
   padding: 25px;
   background-color: #eee;
-  color: #007AFF;
+  color: #333;
   border-radius: 20px;
   text-align: center;
   vertical-align: middle;
   border: 0;
+}
+
+.person[x-apple-data-detectors] {
+  color: #333 !important;
 }
 
 .person:focus-visible {
