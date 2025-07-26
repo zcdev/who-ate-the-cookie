@@ -7,13 +7,13 @@ import checkAPIError from './utils/check-api-error.js'
 
 // List of characters and their attributes
 const personsList = [
-  { "id": 0, "name": "David", "img": "icon_david.png", "voice": "John", "message": "I think it’s Sam.", "active": false },
-  { "id": 1, "name": "Lisa", "img": "icon_lisa.png", "voice": "Linda", "message": "Ask David.", "active": false },
-  { "id": 2, "name": "Sam", "img": "icon_sam.png", "voice": "Mike", "message": "It must be Julia.", "active": false },
-  { "id": 3, "name": "Julia", "img": "icon_julia.png", "voice": "Amy", "message": "Lisa knows.", "active": false }
+  { "id": 0, "name": "David", "img": "icon_david", "voice": "John", "message": "I think it’s Sam.", "active": false },
+  { "id": 1, "name": "Lisa", "img": "icon_lisa", "voice": "Linda", "message": "Ask David.", "active": false },
+  { "id": 2, "name": "Sam", "img": "icon_sam", "voice": "Mike", "message": "It must be Julia.", "active": false },
+  { "id": 3, "name": "Julia", "img": "icon_julia", "voice": "Amy", "message": "Lisa knows.", "active": false }
 ]
 
-// Sequence of follow-up responses
+// Follow-up responses in sequence
 const messageList = [
   "I didn’t eat it.",
   "I don’t know.",
@@ -30,7 +30,7 @@ const messageList = [
   "Ok, it’s me. Here’s a cookie for you."
 ]
 
-// Initial game state
+// Initial state for the game
 const initialGameState = {
   speaker: null,
   click: 0,
@@ -46,15 +46,15 @@ const initialGameState = {
   selectedID: null
 }
 
-// Reducer to manage all game-related state transitions
+// Reducer to manage game state actions
 function gameReducer(state, action) {
   switch (action.type) {
-    // Character card click
+    // Handle character card click
     case 'GET_SPEAKER':
       // Get the charater data
       const person = action.payload.speaker
 
-      // First speaker: show their initial message
+      // First click: show the character's initial message
       if (state.click === 0) {
         return {
           ...state,
@@ -65,7 +65,7 @@ function gameReducer(state, action) {
           active: true,
           selectedID: person.id
         }
-      // Show next message in sequence
+      // Subsequent clicks: cycle through message list
       } else if (state.turnCount < messageList.length) {
         return {
           ...state,
@@ -76,7 +76,7 @@ function gameReducer(state, action) {
           active: true,
           selectedID: person.id
         }
-      // End of message list
+      // End of game
       } else {
         return {
           ...state,
@@ -88,7 +88,7 @@ function gameReducer(state, action) {
         }
       }
 
-    // Reset game state at the Start Over button
+    // Reset the game to its initial state
     case 'START_OVER':
       return {
         ...state,
@@ -101,32 +101,33 @@ function gameReducer(state, action) {
         isMuted: false
       }
 
-    // Toggle sound at the Mute Sound button
+    // Toggle mute state
     case 'MUTE_TOGGLE':
       return {
         ...state,
         isMuted: !state.isMuted
       }
 
-    // Track character clicks for MessageBoard to conditionally apply animation
+    // Track character click state for animation triggers
     case 'CLICK_TOGGLE':
       return {
         ...state,
         isClicked: !state.isClicked
       }
 
-    // Toggle animation at the Stop Animation button
+    // Toggle cookie spin animation
     case 'ANIMATE_TOGGLE':
       return {
         ...state,
         isAnimated: !state.isAnimated
       }
 
-    // Update cookie availability if API reached the limit cap: 350 calls/day
+    // Disable animation when API limit is reached
     case 'COOKIE_UNAVAILABLE':
       return {
         ...state,
-        isCookieAvail: false
+        isCookieAvail: false,
+        isAnimated: false
       }
 
     default:
@@ -135,13 +136,13 @@ function gameReducer(state, action) {
 }
 
 export default function App() {
-  // Game characters
+  // Character data
   const [persons, setPersons] = useState(personsList)
 
-  // Global game state
+  // Global state managed by reducer
   const [state, dispatch] = useReducer(gameReducer, initialGameState)
 
-  // Reducer state object
+  // Destructure state values
   const {
     isAnimated,
     isMuted,
@@ -153,7 +154,7 @@ export default function App() {
     selectedID
   } = state
 
-  // User interactive mode toggling logics
+  // Button labels based on current state
   const silentMode = isMuted ? "Resume Sound" : "Mute Sound"
   const animationMode = isAnimated ? "Stop Animation" : "Start Animation"
 
@@ -162,46 +163,43 @@ export default function App() {
     dispatch({ type: 'GET_SPEAKER', payload: { speaker } })
   }
 
-  // Start Over button dispatch action
+  // Button handlers
+
   function startOver() {
     dispatch({ type: 'START_OVER' })
   }
 
-  // Mute Sound button dispatch action
   function muteToggle() {
     dispatch({ type: 'MUTE_TOGGLE' })
   }
 
-  // Stop Animation button dispatch action
   function animateToggle() {
     dispatch({ type: 'ANIMATE_TOGGLE' })
   }
 
-  // VoiceRSS API configs
+  // VoiceRSS API setup
   const BASE_URL = 'https://api.voicerss.org/'
   const VOICE_API_KEY = 'ec2a598df23845f7bba6ad55eb8d2328'
 
-  // Insert the current speaker's voice and message to the VoiceRSS audio URL format
+  // Construct voice and message to the audio URL
   const audioURL = speaker
     ? `${BASE_URL}?key=${VOICE_API_KEY}&hl=en-us&v=${voice}&src=${encodeURIComponent(message)}`
     : null
 
-  // Default audioRef
+  // Audio element reference
   const audioRef = useRef(null)
 
-  // Play voice message when speaker or message changes
+  // Play audio when speaker or message changes
   useEffect(() => {
 
-    // Create a new audio instance and assign to the audioRef
+    // Initialize new audio instance
     audioRef.current = new Audio(audioURL)
-
-    // Get the audio object
     const audio = audioRef.current
 
-    // Check API response as text by fetching the audioURL and update cookie availability via dispatch
+    // Check for API error and update cookie availability
     checkAPIError(audioURL, dispatch)
 
-    // Check if sound should be muted, if yes, then don't play the audio
+    // Play audio if not muted
     if (!isMuted && audio) {
       audio.play()
         .then(() => console.log("Audio is playing."))
