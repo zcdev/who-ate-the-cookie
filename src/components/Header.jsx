@@ -1,13 +1,14 @@
 import { useEffect, useState } from 'react'
+import ResponsiveImage from './ResponsiveImage'
 
 export default function Header({ isMuted, isGameOver, isAnimated }) {
 
     // Tracks whether the cookie icon should spin (used for animation state)
     const [isAnimating, setIsAnimating] = useState(false)
 
-    // Renders the cookie icon
-    function CookieIcon({ size = "large" }) {
-        // Set size class based on "large" or "small"
+    // CookieIcon renders the cookie image at different sizes and animation states
+    const CookieIcon = ({ size = "large" }) => {
+        // Assign size-based class
         const sizeClass = size === "large"
             ? "cookie-large"
             : "cookie-small"
@@ -15,38 +16,30 @@ export default function Header({ isMuted, isGameOver, isAnimated }) {
         const animationClass = isAnimating
             ? "spinning-cookie"
             : ""
-        // Combine size and animation classes
+        // Combine class names
         const className = `${sizeClass} ${animationClass}`.trim()
-        // Set image dimensions based on size
-        const cookieIconDimension = size === "large" ? "70" : "60"
+        // Set dimensions by size
+        const imgDimension = size === "large" ? "70" : "60"
 
         return (
-            <picture>
-                <source type="image/webp"
-                    className={className}
-                    width={cookieIconDimension}
-                    height={cookieIconDimension}
-                    srcSet="/assets/icons/icon_cookie.webp"
-                    alt={`${size.charAt(0).toUpperCase() + size.slice(1)} chocolate chip cookie`} />
-                <img
-                    width={cookieIconDimension}
-                    height={cookieIconDimension}
-                    className={className}
-                    src="/assets/icons/icon_cookie.png"
-                    alt={`${size.charAt(0).toUpperCase() + size.slice(1)} chocolate chip cookie`}
-                />
-            </picture>
+            <ResponsiveImage
+                fileName="icon_cookie"
+                width={imgDimension}
+                height={imgDimension}
+                className={className}
+                alt={`${size.charAt(0).toUpperCase() + size.slice(1)} chocolate chip cookie`}
+            />
         )
     }
 
     useEffect(() => {
-        // Animate spinning cookie if game is over
+        // Trigger cookie spin when game ends and animation is enabled
         if (isGameOver === true && isAnimated === true) {
             setIsAnimating(true)
         } else {
             setIsAnimating(false)
         }
-    }, [isGameOver]) // Re-run when game is over and animation mode is on
+    }, [isGameOver])
 
     return (
         <header>
