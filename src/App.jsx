@@ -192,7 +192,10 @@ export default function App() {
   // Play audio when speaker or message changes
   useEffect(() => {
 
-    // Initialize new audio instance
+    // Don’t proceed if audioURL is null (no speaker selected yet)
+    if (!audioURL) return
+
+    // Create a new audio instance
     audioRef.current = new Audio(audioURL)
     const audio = audioRef.current
 
