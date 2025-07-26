@@ -16,10 +16,21 @@ export default function PersonCard({ person, onClick, selectedID, isAnimated }) 
           className={`icon${selectedID === person.id && isAnimated === true
             ? ' active-zoom'
             : ''}`}>
-          <img
-            src={`./assets/icons/${person.img}`}
-            alt="Character icon"
-          />
+          <picture>
+            <source
+              type="image/webp"
+              width="100"
+              height="100"
+              srcSet={`./assets/icons/${person.img}.webp`}
+              alt="Character icon"
+            />
+            <img
+              width="100"
+              height="100"
+              src={`./assets/icons/${person.img}.png`}
+              alt="Character icon"
+            />
+          </picture>
         </div>
       </button>
     </li>
