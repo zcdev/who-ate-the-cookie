@@ -1,24 +1,28 @@
 export default async function checkAPIError(url, dispatch) {
-    try {
-        // Get response from fetching audioURL
-        const response = await fetch(url)
+  try {
+    // Fetch the audio URL
+    const response = await fetch(url)
 
-        // Check if response throws an error
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`)
-        }
-
-        // Convert response object to text
-        const textData = await response.text()
-
-        // Read the converted text and see if the word "ERROR" appears in text
-        if (textData.includes("ERROR")) {
-            // If there is the word "ERROR", Dispatch action to update reducer state variable to be false (cookie is unavaliable then)
-            dispatch = dispatch({ type: 'COOKIE_UNAVAILABLE' })
-        }
-    
-    // Catch the response error and log it
-    } catch (error) {
-        console.error("Error fetching data:", error)
+    // If the response is invalid or lacks a URL, throw an error
+    if (!response.ok && !response.url) {
+      console.error("API response error:", response.error)
+      throw new Error(`HTTP error! status: ${response.status}`)
     }
+
+    // Convert the response to plain text
+    const textData = await response.text()
+
+    // Check if the response text includes the word "ERROR" or "limitation"
+    if (textData.includes("ERROR") || textData.includes("limitation")) {
+      // If an error indicator is found, mark the cookie as unavailable
+      dispatch = dispatch({ type: 'COOKIE_UNAVAILABLE' })
+    } else {
+      // If no valid sound source is returned, mark the voice as unavailable
+      dispatch = dispatch({ type: 'VOICE_UNAVAILABLE' })
+    }
+
+  // Catch and log any errors during the fetch process
+  } catch (error) {
+    console.error("Error fetching data:", error)
+  }
 }

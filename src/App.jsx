@@ -5,7 +5,7 @@ import MessageBoard from './components/MessageBoard'
 import Button from './components/Button'
 import checkAPIError from './utils/check-api-error.js'
 
-// List of characters and their attributes
+// Character data and their attributes
 const personsList = [
   { "id": 0, "name": "David", "img": "icon_david", "voice": "John", "message": "I think it’s Sam.", "active": false },
   { "id": 1, "name": "Lisa", "img": "icon_lisa", "voice": "Linda", "message": "Ask David.", "active": false },
@@ -13,7 +13,7 @@ const personsList = [
   { "id": 3, "name": "Julia", "img": "icon_julia", "voice": "Amy", "message": "Lisa knows.", "active": false }
 ]
 
-// Follow-up responses in sequence
+// Sequence of follow-up responses
 const messageList = [
   "I didn’t eat it.",
   "I don’t know.",
@@ -30,7 +30,7 @@ const messageList = [
   "Ok, it’s me. Here’s a cookie for you."
 ]
 
-// Initial state for the game
+// Initial game state
 const initialGameState = {
   speaker: null,
   click: 0,
@@ -43,18 +43,19 @@ const initialGameState = {
   isGameOver: false,
   isAnimated: true,
   isCookieAvail: true,
+  isVoice: true,
   selectedID: null
 }
 
-// Reducer to manage game state actions
+// Reducer for managing game state transitions
 function gameReducer(state, action) {
   switch (action.type) {
-    // Handle character card click
+
+    // Handle character click
     case 'GET_SPEAKER':
-      // Get the charater data
       const person = action.payload.speaker
 
-      // First click: show the character's initial message
+      // First click: show character's initial message
       if (state.click === 0) {
         return {
           ...state,
@@ -65,7 +66,8 @@ function gameReducer(state, action) {
           active: true,
           selectedID: person.id
         }
-      // Subsequent clicks: cycle through message list
+
+      // During message cycle
       } else if (state.turnCount < messageList.length) {
         return {
           ...state,
@@ -76,7 +78,8 @@ function gameReducer(state, action) {
           active: true,
           selectedID: person.id
         }
-      // End of game
+
+      // End of message cycle
       } else {
         return {
           ...state,
@@ -88,7 +91,7 @@ function gameReducer(state, action) {
         }
       }
 
-    // Reset the game to its initial state
+    // Reset game state
     case 'START_OVER':
       return {
         ...state,
@@ -101,28 +104,28 @@ function gameReducer(state, action) {
         isMuted: false
       }
 
-    // Toggle mute state
+    // Toggle mute on/off
     case 'MUTE_TOGGLE':
       return {
         ...state,
         isMuted: !state.isMuted
       }
 
-    // Track character click state for animation triggers
+    // Trigger animation cycle (used for re-triggering transitions)
     case 'CLICK_TOGGLE':
       return {
         ...state,
         isClicked: !state.isClicked
       }
 
-    // Toggle cookie spin animation
+    // Toggle cookie animation manually
     case 'ANIMATE_TOGGLE':
       return {
         ...state,
         isAnimated: !state.isAnimated
       }
 
-    // Disable animation when API limit is reached
+    // Stop animation if cookie API fails
     case 'COOKIE_UNAVAILABLE':
       return {
         ...state,
@@ -130,41 +133,49 @@ function gameReducer(state, action) {
         isAnimated: false
       }
 
+    // Stop voice output if API fails to deliver sound
+    case 'VOICE_UNAVAILABLE': {
+      return {
+        ...state,
+        isVoiceAvail: false
+      }
+    }
+
     default:
       throw new Error(`Unhandled action type: ${action.type}`)
   }
 }
 
 export default function App() {
-  // Character data
+  // Character list state (static in this app)
   const [persons, setPersons] = useState(personsList)
 
-  // Global state managed by reducer
+  // Game state management
   const [state, dispatch] = useReducer(gameReducer, initialGameState)
 
-  // Destructure state values
+  // Destructure state for convenience
   const {
     isAnimated,
     isMuted,
     isGameOver,
     isCookieAvail,
+    isVoiceAvail,
     speaker,
     voice,
     message,
     selectedID
   } = state
 
-  // Button labels based on current state
+  // Dynamic labels for control buttons
   const silentMode = isMuted ? "Resume Sound" : "Mute Sound"
   const animationMode = isAnimated ? "Stop Animation" : "Start Animation"
 
-  // Get speaker data on click
+  // Handle character selection
   function getSpeaker(speaker) {
     dispatch({ type: 'GET_SPEAKER', payload: { speaker } })
   }
 
-  // Button handlers
-
+  // Control button handlers
   function startOver() {
     dispatch({ type: 'START_OVER' })
   }
@@ -177,38 +188,37 @@ export default function App() {
     dispatch({ type: 'ANIMATE_TOGGLE' })
   }
 
-  // VoiceRSS API setup
+  // VoiceRSS API config
   const BASE_URL = 'https://api.voicerss.org/'
   const VOICE_API_KEY = 'ec2a598df23845f7bba6ad55eb8d2328'
 
-  // Construct voice and message to the audio URL
+  // Construct the audio URL based on current speaker and message
   const audioURL = speaker
     ? `${BASE_URL}?key=${VOICE_API_KEY}&hl=en-us&v=${voice}&src=${encodeURIComponent(message)}`
     : null
 
-  // Audio element reference
+  // Reference to the audio element
   const audioRef = useRef(null)
 
-  // Play audio when speaker or message changes
+  // Handle voice playback
   useEffect(() => {
-
-    // Don’t proceed if audioURL is null (no speaker selected yet)
+    // Skip if speaker is not yet selected
     if (!audioURL) return
 
-    // Create a new audio instance
+    // Create new audio instance
     audioRef.current = new Audio(audioURL)
     const audio = audioRef.current
 
-    // Check for API error and update cookie availability
+    // Check for API limitations and update state if necessary
     checkAPIError(audioURL, dispatch)
 
-    // Play audio if not muted
-    if (!isMuted && audio) {
+    // Attempt to play audio if unmuted and source is ready
+    if (!isMuted && audio && audio.src) {
       audio.play()
         .then(() => console.log("Audio is playing."))
-        .catch(error => {
-          console.error("Audio failed to play.")
-        })
+        .catch(error => console.error("Audio failed to play."))
+    } else {
+      console.warn("Audio source is not ready")
     }
 
   }, [audioURL, isMuted])
@@ -237,9 +247,9 @@ export default function App() {
         message={message}
         isAnimated={isAnimated}
         isCookieAvail={isCookieAvail}
+        isVoiceAvail={isVoiceAvail}
       />
-      <section
-        className="game-control">
+      <section className="game-control">
         <Button
           onClick={startOver}
           aria-label="Start over">
