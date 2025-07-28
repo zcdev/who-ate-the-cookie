@@ -43,7 +43,7 @@ const initialGameState = {
   isGameOver: false,
   isAnimated: true,
   isCookieAvail: true,
-  isVoice: true,
+  isVoiceAvail: true,
   selectedID: null
 }
 

@@ -12,12 +12,13 @@ export default async function checkAPIError(url, dispatch) {
     // Convert the response to plain text
     const textData = await response.text()
 
-    // Check if the response text includes the word "ERROR" or "limitation"
-    if (textData.includes("ERROR") || textData.includes("limitation")) {
-      // If an error indicator is found, mark the cookie as unavailable
+    // If the word "expired" is found in the plain text, mark the cookie as unavailable
+    if (textData.includes("expired")) {
       dispatch = dispatch({ type: 'COOKIE_UNAVAILABLE' })
-    } else {
-      // If no valid sound source is returned, mark the voice as unavailable
+    }
+
+     // If the word "limitation" is found in the plain text, mark the voice as unavailable
+    if (textData.includes("limitation")) {
       dispatch = dispatch({ type: 'VOICE_UNAVAILABLE' })
     }
 
