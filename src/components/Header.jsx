@@ -6,12 +6,21 @@ export default function Header({ isMuted, isGameOver, isAnimated, isCookieAvail,
   // Tracks whether the cookie icon should spin (used for game-over animation)
   const [isAnimating, setIsAnimating] = useState(false)
 
+  // Set Out Of Service game status
+  const isOutOfServie = isCookieAvail === false && isVoiceAvail === false
+
   // Renders the cookie image with size-based styling and optional animation
   const CookieIcon = ({ size = "large" }) => {
+
+    // Determine small cookie classes
+    const smallCookie = isOutOfServie && size !== "large"
+    ? "out-of-service-cookie"
+    : "cookie-small"
+
     // Determine size-based class
     const sizeClass = size === "large"
       ? "cookie-large"
-      : "cookie-small"
+      : smallCookie
 
     // Add spin animation if active
     const animationClass = isAnimating
@@ -35,6 +44,23 @@ export default function Header({ isMuted, isGameOver, isAnimated, isCookieAvail,
     )
   }
 
+  const ServiceBanner = () => {
+    return (
+      <section>
+        <h2 className={isOutOfServie ? "out-of-service-msg" : ""}>
+          {isOutOfServie ? "Sorry, the game is currently out of service." : "Please enable your speakers to play."}
+        </h2>
+        <div className={`game-mode ${isOutOfServie ? "out-of-service" : ""}`}>
+            {isMuted ? "Game in silent mode, " : "Sound is on, "}
+            {isAnimated ? "animation is on." : "animation paused."}
+        </div>
+        <p className={`announcement ${isOutOfServie ? "out-of-service" : ""}`}>
+          You might not get a cookie.<br className="break" /> First come, first serve.
+        </p>
+      </section>
+    )
+  }
+
   useEffect(() => {
     // Enable cookie spin only when the game is over and animation is enabled
     if (isGameOver === true && isAnimated === true) {
@@ -53,22 +79,7 @@ export default function Header({ isMuted, isGameOver, isAnimated, isCookieAvail,
         isAnimating={isAnimated}
       />
 
-      <h2>
-        Please turn on your speakers.
-        <br className="break" />
-        {isCookieAvail === true && isVoiceAvail === true &&
-        <span className="game-mode">
-          {`
-            ${isMuted ? "Game in silent mode," : "Sound is on,"}
-            ${isAnimated ? "animation is on." : "animation paused."}
-          `}
-        </span>
-        }
-      </h2>
-
-      <p className="announcement">
-        You might not get a cookie.<br className="break" /> First come, first serve.
-      </p>
+      <ServiceBanner />
 
       <CookieIcon
         size="small"

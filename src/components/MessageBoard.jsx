@@ -8,7 +8,7 @@ export default function MessageBoard({ message, isClicked, isAnimated, isCookieA
   // Displays an animated message when available
   const MessageDisplay = ({ message }) => (
     <section
-      className={`message-board ${isAnimating ? 'animate' : ''}`}
+      className={`message-board ${isAnimating ? 'animate' : 'static'}`}
       aria-hidden="true">
       {message}
     </section>
@@ -36,7 +36,7 @@ export default function MessageBoard({ message, isClicked, isAnimated, isCookieA
   const SilentMessage = () => (
     <section
       className="default-display"
-      aria-hidden="true">
+      aria-live="assertive" role="status" aria-label="Game status: Voice API unavailable">
       Oops! No voice today! 🫢
     </section>
   )
@@ -45,7 +45,7 @@ export default function MessageBoard({ message, isClicked, isAnimated, isCookieA
   const UnavailMessage = () => (
     <section
       className="default-display"
-      aria-hidden="true">
+      aria-live="assertive" role="status" aria-label="Game status: Out of service">
       No cookie left... and no one’s saying a word. 🤐 Suspiciously silent, huh?
     </section>
   )
@@ -57,7 +57,7 @@ export default function MessageBoard({ message, isClicked, isAnimated, isCookieA
     } else {
       setIsAnimating(false)
     }
-  }, [isClicked]) // Trigger animation update when a character is clicked
+  }, [isAnimated, isClicked]) // Trigger animation update when a character is clicked
 
   // Determine which message to display based on API response statuses
   if (isVoiceAvail === true) {

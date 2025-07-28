@@ -30,16 +30,20 @@ html {
 }
 
 body {
-  margin: 2rem 3rem;
+  margin: 2rem;
   display: flex;
   justify-content: center;
   background-color: #fff;
   color: #333;
 }
 
+header {
+  max-width: 340px;
+}
+
 /* Headings */
 h1 {
-  font-size: 2rem;
+  font-size: 2em;
   font-weight: 400;
   margin-bottom: 0;
   line-height: 1;
@@ -47,7 +51,7 @@ h1 {
 }
 
 h2 {
-  font-size: 1.4rem;
+  font-size: 1.2em;
   font-weight: 400;
   margin: 1rem 0 0.5rem;
 }
@@ -56,30 +60,49 @@ h2 {
 /* === UI Element Styles === */
 
 .announcement {
-  font-size: 1.2rem;
+  font-size: 1.2em;
 }
 
 .game-mode {
   background-color: #875546;
   color: #fff;
-  font-size: 1rem;
-  font-weight: 500;
+  display: inline-block;
+  font-size: 0.95em;
+  font-weight: 600;
+  margin: 0.2rem 0 0.74rem;
   padding: 0.3rem 0.5rem;
   border-radius: 10px;
 }
 
 .default-display {
   margin: 1.8rem 0;
-  font-size: 1.2rem;
+  font-size: 1.2em;
 }
 
 .message-board {
   margin: 1.8rem 0;
   padding: 2rem;
-  font-size: 1.3rem;
+  font-size: 1.3em;
   background-color: #DFCFBF;
   border-radius: 20px;
   opacity: 0;
+}
+
+.out-of-service {
+  display: none;
+}
+
+.out-of-service-cookie {
+  position: relative;
+  display: block;
+  width: 60px;
+  height: 60px;
+  margin-left: 80%;
+  margin-top: -20%;
+}
+
+.out-of-service-msg {
+  width: 80%;
 }
 
 
@@ -90,10 +113,24 @@ h2 {
   animation: fade-in-out 3s ease-in-out;
 }
 
+/* Static version/no effect */
+.message-board.static {
+  animation: none;
+  opacity: 1;
+}
+
 @keyframes fade-in-out {
-  0%   { opacity: 0; }
-  50%  { opacity: 1; }
-  100% { opacity: 0; }
+  0% {
+    opacity: 0;
+  }
+
+  50% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
 }
 
 
@@ -108,7 +145,7 @@ h2 {
   background-color: #875546;
   color: #fff;
   padding: 1rem;
-  font-size: 1rem;
+  font-size: 1em;
   font-weight: 600;
   border-radius: 10px;
   border: 0;
@@ -130,12 +167,11 @@ button:nth-child(2) {
 
 /* Align small cookie to top-right */
 .cookie-small {
-  position: relative;
   display: block;
   width: 60px;
   height: 60px;
-  margin-left: 80%;
-  margin-top: -19%;
+  margin-left: 77%;
+  margin-top: -18%;
   object-fit: contain;
 }
 
@@ -154,6 +190,7 @@ button:nth-child(2) {
   margin-top: 2rem;
   list-style-type: none;
   place-items: center;
+  justify-content: center;
 }
 
 .person {
@@ -216,16 +253,25 @@ button:nth-child(2) {
 }
 
 @keyframes zoom {
-  10%, 90% {
+
+  10%,
+  90% {
     transform: translate3d(-2px, 0, 0) scale(1.0);
   }
-  20%, 80% {
+
+  20%,
+  80% {
     transform: translate3d(2px, 0, 0) scale(1.1);
   }
-  30%, 50%, 70% {
+
+  30%,
+  50%,
+  70% {
     transform: translate3d(0, -4px, 0);
   }
-  40%, 60% {
+
+  40%,
+  60% {
     transform: translate3d(0, 4px, 0);
   }
 }
@@ -257,7 +303,11 @@ button:nth-child(2) {
     color: #C08A59;
   }
 
-  .button,
+  .button {
+    background-color: #C08A59;
+    color: #000;
+  }
+
   .game-mode {
     background-color: #C08A59;
     color: #000;
@@ -271,21 +321,23 @@ button:nth-child(2) {
 
 /* === Responsive Layout (Mobile-first) === */
 
-@media (min-width: 500px) {
-  .cookie-small {
-    width: 60px;
-    margin-left: 62%;
-    margin-top: -15%;
-  }
-}
-
 @media (min-width: 700px) {
+  body {
+    width: auto;
+    max-width: 100%;
+  }
+
+  header {
+    max-width: 100%;
+  }
+
   h1 {
     font-size: 3em;
   }
 
   h2 {
-    font-size: 1.6em;
+    display: inline-block;
+    font-size: 1.5em;
     margin-top: 1rem;
   }
 
@@ -320,14 +372,14 @@ button:nth-child(2) {
     width: 70px;
     height: 70px;
     display: block;
-    position: relative;
-    left: 66%;
     margin-top: -9%;
+    margin-left: 66%;
     object-fit: contain;
   }
 
   /* Hide small cookie */
-  .cookie-small {
+  .cookie-small,
+  .out-of-service-cookie {
     display: none;
   }
 
