@@ -6,8 +6,8 @@ export default function Header({ isMuted, isGameOver, isAnimated, isCookieAvail,
   // Tracks whether the cookie icon should spin (used for game-over animation)
   const [isAnimating, setIsAnimating] = useState(false)
 
-  // Set Out Of Service game status
-  const isOutOfServie = isCookieAvail === false && isVoiceAvail === false
+  // Set Out of Service game status
+  const isOutOfServie = isCookieAvail === false || isVoiceAvail === false
 
   // Renders the cookie image with size-based styling and optional animation
   const CookieIcon = ({ size = "large" }) => {
@@ -47,14 +47,14 @@ export default function Header({ isMuted, isGameOver, isAnimated, isCookieAvail,
   const ServiceBanner = () => {
     return (
       <section>
-        <h2 className={isOutOfServie ? "out-of-service-msg" : ""}>
-          {isOutOfServie ? "Sorry, the game is currently out of service." : "Please enable your speakers to play."}
+        <h2 className={isOutOfServie === true ? "out-of-service-msg" : ""}>
+          {isOutOfServie === true ? "Sorry, the game is currently out of service." : "Please enable your speakers to play."}
         </h2>
-        <div className={`game-mode ${isOutOfServie ? "out-of-service" : ""}`}>
+        <div className={`game-mode ${isOutOfServie === true  ? "out-of-service" : ""}`}>
             {isMuted ? "Game in silent mode, " : "Sound is on, "}
             {isAnimated ? "animation is on." : "animation paused."}
         </div>
-        <p className={`announcement ${isOutOfServie ? "out-of-service" : ""}`}>
+        <p className={`announcement ${isOutOfServie === true ? "out-of-service" : ""}`}>
           You might not get a cookie.<br className="break" /> First come, first serve.
         </p>
       </section>
