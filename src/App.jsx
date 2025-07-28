@@ -137,7 +137,8 @@ function gameReducer(state, action) {
     case 'VOICE_UNAVAILABLE': {
       return {
         ...state,
-        isVoiceAvail: false
+        isVoiceAvail: false,
+        isAnimated: false
       }
     }
 
@@ -229,6 +230,8 @@ export default function App() {
         isMuted={isMuted}
         isGameOver={isGameOver}
         isAnimated={isAnimated}
+        isCookieAvail={isCookieAvail}
+        isVoiceAvail={isVoiceAvail}
       />
       <ul
         className="speakers"
@@ -249,23 +252,25 @@ export default function App() {
         isCookieAvail={isCookieAvail}
         isVoiceAvail={isVoiceAvail}
       />
-      <section className="game-control">
-        <Button
-          onClick={startOver}
-          aria-label="Start over">
-          Start Over
-        </Button>
-        <Button
-          onClick={muteToggle}
-          aria-label={silentMode}>
-          {silentMode}
-        </Button>
-        <Button
-          onClick={animateToggle}
-          aria-label={animationMode}>
-          {animationMode}
-        </Button>
-      </section>
+      {isCookieAvail === true && isVoiceAvail === true &&
+        <section className="game-control">
+          <Button
+            onClick={startOver}
+            aria-label="Start over">
+            Start Over
+          </Button>
+          <Button
+            onClick={muteToggle}
+            aria-label={silentMode}>
+            {silentMode}
+          </Button>
+          <Button
+            onClick={animateToggle}
+            aria-label={animationMode}>
+            {animationMode}
+          </Button>
+        </section>
+      }
     </main>
   )
 }

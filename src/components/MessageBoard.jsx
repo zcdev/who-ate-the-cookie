@@ -41,6 +41,15 @@ export default function MessageBoard({ message, isClicked, isAnimated, isCookieA
     </section>
   )
 
+  // Message shown when nothing is unavailable
+  const UnavailMessage = () => (
+    <section
+      className="default-display"
+      aria-hidden="true">
+      No cookie left... and no one’s saying a word. 🤐 Suspiciously silent, huh?
+    </section>
+  )
+
   useEffect(() => {
     // Enable or disable the animation based on the current animation state
     if (isAnimated === true) {
@@ -58,6 +67,10 @@ export default function MessageBoard({ message, isClicked, isAnimated, isCookieA
       return <EndMessage />
     }
   } else {
-    return <SilentMessage />
+    if (isCookieAvail === true) {
+      return <SilentMessage />
+    } else {
+      return <UnavailMessage />
+    }
   }
 }

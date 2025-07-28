@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import ResponsiveImage from './ResponsiveImage'
 
-export default function Header({ isMuted, isGameOver, isAnimated }) {
+export default function Header({ isMuted, isGameOver, isAnimated, isCookieAvail, isVoiceAvail }) {
 
   // Tracks whether the cookie icon should spin (used for game-over animation)
   const [isAnimating, setIsAnimating] = useState(false)
@@ -56,12 +56,14 @@ export default function Header({ isMuted, isGameOver, isAnimated }) {
       <h2>
         Please turn on your speakers.
         <br className="break" />
+        {isCookieAvail === true && isVoiceAvail === true &&
         <span className="game-mode">
           {`
             ${isMuted ? "Game in silent mode," : "Sound is on,"}
             ${isAnimated ? "animation is on." : "animation paused."}
           `}
         </span>
+        }
       </h2>
 
       <p className="announcement">
