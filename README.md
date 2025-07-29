@@ -1,6 +1,9 @@
 # Who Ate the Cookie 🍪
 🔀 Switch to the **[Next.js version](https://github.com/zcdev/who-ate-the-cookie/tree/next-js)**
 
+🔒 This branch is locked as the final React version of Who Ate the Cookie.
+No further changes will be accepted. See `next-js` for the current version.
+
 A playful detective game built with React — with voices!
 Can you tell who ate the cookie? Turn on your speaker and click around to find out.
 
