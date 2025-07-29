@@ -1,10 +1,7 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+'use client';
+
+import Main from '../components/Main';
 
 export default function HomePage() {
-  return (
-    <main>
-      <h1>Welcome to Who Ate the Cookie 🍪</h1>
-    </main>
-  );
+  return <Main />;
 }
