@@ -1,6 +1,7 @@
 # Who Ate the Cookie 🍪
+🔀 Switch to the **[React.js version](https://github.com/zcdev/who-ate-the-cookie/tree/react-js)**
 
-A playful detective game built with React — with voices!  
+A playful detective game built with React — with voices!
 Can you tell who ate the cookie? Turn on your speaker and click around to find out.
 
 🔗 **Live Demo:** [who-ate-the-cookie.vercel.app](https://who-ate-the-cookie.vercel.app/)
