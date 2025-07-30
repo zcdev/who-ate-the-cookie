@@ -25,8 +25,8 @@ export async function POST(request) {
             text: message,
             model_id: 'eleven_monolingual_v1',
             voice_settings: {
-                stability: 0.3,
-                similarity_boost: 0.7,
+                stability: 0.7,
+                similarity_boost: 0.8,
             },
         }),
     });
