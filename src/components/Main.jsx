@@ -6,35 +6,19 @@ import Header from './Header';
 import CharacterCard from './CharacterCard';
 import MessageBoard from './MessageBoard';
 import Button from './Button';
+import fetchAndPlayVoice from '../lib/speechHelpers.js'
 
 // Character data and their attributes
-const personsList = [
-    { "id": 0, "name": "David", "img": "icon_david", "voice": "John", "message": "I think it’s Sam.", "active": false },
-    { "id": 1, "name": "Lisa", "img": "icon_lisa", "voice": "Linda", "message": "Ask David.", "active": false },
-    { "id": 2, "name": "Sam", "img": "icon_sam", "voice": "Mike", "message": "It must be Julia.", "active": false },
-    { "id": 3, "name": "Julia", "img": "icon_julia", "voice": "Amy", "message": "Lisa knows.", "active": false }
-];
-
-// Sequence of follow-up responses
-const messageList = [
-    "I didn’t eat it.",
-    "I don’t know.",
-    "Who knows?",
-    "I don’t really care.",
-    "Someone in the kitchen.",
-    "I was in the living room.",
-    "There was nothing on the table.",
-    "I only got milk.",
-    "I don’t like cookies.",
-    "It’s not me.",
-    "Forget it.",
-    "I was not hungry.",
-    "Ok, it’s me. Here’s a cookie for you."
+const charactersList = [
+    { "id": 0, "name": "David", "img": "icon_david", "voiceId": "GBv7mTt0atIp3Br8iCZE", "message": "I think it’s Sam.", "active": false },
+    { "id": 1, "name": "Lisa", "img": "icon_lisa", "voiceId": "zrHiDhphv9ZnVXBqCLjz", "message": "Ask David.", "active": false },
+    { "id": 2, "name": "Sam", "img": "icon_sam", "voiceId": "SOYHLrjzK2X1ezoPC6cr", "message": "It must be Julia.", "active": false },
+    { "id": 3, "name": "Julia", "img": "icon_julia", "voiceId": "MF3mGyEYCl7XYWbV9V6O", "message": "Lisa knows.", "active": false }
 ];
 
 export default function Main() {
     // Character list state (static in this app)
-    const [persons, setPersons] = useState(personsList);
+    const [characters, setCharacters] = useState(charactersList);
 
     // Game state management
     const [state, dispatch] = useReducer(reducer, initialState);
@@ -46,10 +30,9 @@ export default function Main() {
         isGameOver,
         isCookieAvail,
         isVoiceAvail,
-        speaker,
-        voice,
+        voiceId,
         message,
-        selectedID
+        selectedID,
     } = state;
 
     // Dynamic labels for control buttons
@@ -74,88 +57,61 @@ export default function Main() {
         dispatch({ type: 'ANIMATE_TOGGLE' });
     }
 
-    // VoiceRSS API config
-    const BASE_URL = 'https://api.voicerss.org/';
-    const VOICE_API_KEY = 'ec2a598df23845f7bba6ad55eb8d2328';
-
-    // Construct the audio URL based on current speaker and message
-    const audioURL = speaker
-        ? `${BASE_URL}?key=${VOICE_API_KEY}&hl=en-us&v=${voice}&src=${encodeURIComponent(message)}`
-        : null;
-
-    // Reference to the audio element
-    const audioRef = useRef(null);
-
-    // Handle voice playback
+    // Trigger voice playback when a new message arrives and audio is unmuted
     useEffect(() => {
-        // Skip if speaker is not yet selected
-        if (!audioURL) return;
-
-        // Create new audio instance
-        audioRef.current = new Audio(audioURL);
-        const audio = audioRef.current;
-
-        // Check for API limitations and update state if necessary
-        checkAPIError(audioURL, dispatch);
-
-        // Attempt to play audio if unmuted and source is ready
-        if (!isMuted && audio && audio.src) {
-            audio.play()
-                .then(() => console.log("Audio is playing."))
-                .catch(error => console.error("Audio failed to play."));
-        } else {
-            console.warn("Audio source is not ready");
-        }
-
-    }, [audioURL, isMuted]);
+        if (!message || isMuted) return;
+        fetchAndPlayVoice(message, voiceId, dispatch);
+    }, [message, voiceId, isMuted]);
 
     return (
-        <main>
-            <Header
-                isMuted={isMuted}
-                isGameOver={isGameOver}
-                isAnimated={isAnimated}
-                isCookieAvail={isCookieAvail}
-                isVoiceAvail={isVoiceAvail}
-            />
-            <ul
-                className="speakers"
-                aria-label="List of speakers to interact">
-                {persons.map((person) => (
-                    <CharacterCard
-                        key={person.id}
-                        person={person}
-                        selectedID={selectedID}
-                        isAnimated={isAnimated}
-                        onClick={() => getSpeaker(person)}
-                    />
-                ))}
-            </ul>
-            <MessageBoard
-                message={message}
-                isAnimated={isAnimated}
-                isCookieAvail={isCookieAvail}
-                isVoiceAvail={isVoiceAvail}
-            />
-            {isCookieAvail === true && isVoiceAvail === true &&
-                <section className="game-control">
-                    <Button
-                        onClick={startOver}
-                        aria-label="Start over">
-                        Start Over
-                    </Button>
-                    <Button
-                        onClick={muteToggle}
-                        aria-label={silentMode}>
-                        {silentMode}
-                    </Button>
-                    <Button
-                        onClick={animateToggle}
-                        aria-label={animationMode}>
-                        {animationMode}
-                    </Button>
-                </section>
-            }
-        </main>
+        <>
+            <main>
+                <Header
+                    isMuted={isMuted}
+                    isGameOver={isGameOver}
+                    isAnimated={isAnimated}
+                    isCookieAvail={isCookieAvail}
+                    isVoiceAvail={isVoiceAvail}
+                />
+                <ul
+                    className="speakers"
+                    aria-label="List of speakers to interact">
+                    {characters.map((character) => (
+                        <CharacterCard
+                            key={character.id}
+                            character={character}
+                            selectedID={selectedID}
+                            isAnimated={isAnimated}
+                            onClick={() => getSpeaker(character)}
+                        />
+                    ))}
+                </ul>
+                <MessageBoard
+                    message={message}
+                    isAnimated={isAnimated}
+                    isCookieAvail={isCookieAvail}
+                    isVoiceAvail={isVoiceAvail}
+                />
+                {isCookieAvail === true && isVoiceAvail === true &&
+                    <section className="game-control">
+                        <Button
+                            onClick={startOver}
+                            aria-label="Start over">
+                            Start Over
+                        </Button>
+                        <Button
+                            onClick={muteToggle}
+                            aria-label={silentMode}>
+                            {silentMode}
+                        </Button>
+                        <Button
+                            onClick={animateToggle}
+                            aria-label={animationMode}>
+                            {animationMode}
+                        </Button>
+                    </section>
+                }
+            </main>
+        </>
     );
 }
