@@ -1,8 +1,5 @@
 /* === Reset & Base Styles === */
 
-/* Import Rubik font from Google Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=optional');
-
 /* Reset common element defaults */
 * {
   margin: 0;
@@ -197,7 +194,7 @@ button:nth-child(2) {
   justify-content: center;
 }
 
-.person {
+.character {
   padding: 25px;
   background-color: #eee;
   color: #333;
@@ -207,19 +204,19 @@ button:nth-child(2) {
   border: 0;
 }
 
-.person img {
+.character img {
   width: 100px;
   height: 100px;
   object-fit: contain;
 }
 
 /* Prevent unintended color change on iOS Mail */
-.person[x-apple-data-detectors] {
+.character[x-apple-data-detectors] {
   color: #333 !important;
 }
 
 /* Custom focus style for keyboard users */
-.person:focus-visible {
+.character:focus-visible {
   outline: 2px solid orange;
   outline-offset: 4px;
 }

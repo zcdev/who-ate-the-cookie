@@ -5,7 +5,7 @@ export default function MessageBoard({ message, isClicked, isAnimated, isCookieA
   // Tracks whether the fade-in-out animation should be active
   const [isAnimating, setIsAnimating] = useState(false)
 
-  // Displays an animated message when available
+  // Message shown with fade animation
   const MessageDisplay = ({ message }) => (
     <section
       className={`message-board ${isAnimating ? 'animate' : 'static'}`}
@@ -14,7 +14,7 @@ export default function MessageBoard({ message, isClicked, isAnimated, isCookieA
     </section>
   )
 
-  // Default message when the game is active and no selection has been made yet
+  // Default message shown when the game is active and no selection has been made yet
   const DefaultMessage = () => (
     <section
       className="default-display"
@@ -32,20 +32,11 @@ export default function MessageBoard({ message, isClicked, isAnimated, isCookieA
     </section>
   )
 
-  // Message shown when the audio source is unavailable
-  const SilentMessage = () => (
-    <section
-      className="default-display"
-      aria-live="assertive" role="status" aria-label="Game status: Voice API unavailable">
-      Oops! No voice today! 🫢
-    </section>
-  )
-
-  // Message shown when nothing is unavailable
+  // Message shown when voice is unavailable
   const UnavailMessage = () => (
     <section
       className="default-display"
-      aria-live="assertive" role="status" aria-label="Game status: Out of service">
+      aria-hidden="true">
       No cookie left... and no one’s saying a word. 🤐 Suspiciously silent, huh?
     </section>
   )
@@ -67,10 +58,6 @@ export default function MessageBoard({ message, isClicked, isAnimated, isCookieA
       return <EndMessage />
     }
   } else {
-    if (isCookieAvail === true) {
-      return <SilentMessage />
-    } else {
-      return <UnavailMessage />
-    }
+    return <UnavailMessage />
   }
 }

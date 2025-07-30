@@ -1,23 +1,23 @@
 import ResponsiveImage from './ResponsiveImage'
 
 // Renders a character card with a name and icon
-export default function PersonCard({ person, onClick, selectedID, isAnimated }) {
+export default function characterCard({ character, onClick, selectedID, isAnimated }) {
 
   // Apply animation styles if this character is selected and animation is active
-  const isAnimating = selectedID === person.id && isAnimated === true
+  const isAnimating = selectedID === character.id && isAnimated === true
 
   return (
     <li>
       <button
-        className={`person${isAnimating ? ' active-glow' : ''}`}
+        className={`character${isAnimating ? ' active-glow' : ''}`}
         onClick={onClick}
-        key={person.id}>
+        key={character.id}>
         <p className="name">
-          {person.name}
+          {character.name}
         </p>
         <div className={`icon${isAnimating ? ' active-zoom' : ''}`}>
           <ResponsiveImage
-            fileName={person.img}
+            fileName={character.img}
             alt="Character icon"
           />
         </div>
