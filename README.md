@@ -1,77 +1,45 @@
 # Who Ate the Cookie 🍪
-🔀 Switch to the **[React.js version](https://github.com/zcdev/who-ate-the-cookie/tree/react-js)**
+A playful, voice-interactive guessing game built with Next.js — now live in production with 100/100 Lighthouse scores across the board.
 
-A playful detective game built with React — with voices!
-Can you tell who ate the cookie? Turn on your speaker and click around to find out.
+## 🔎 What It Is
 
-🔗 **Live Demo:** [who-ate-the-cookie.vercel.app](https://who-ate-the-cookie.vercel.app/)
+"Who Ate the Cookie?" is a quirky web app where users click on characters to hear who took the last cookie. Behind the fun lies a solid architecture for voice playback, client-server interaction, and web performance best practices.
 
-## Overview
+## 🛠️ Tech Stack
 
-**Who Ate the Cookie** is a single-page app rebuilt from Vue 3 into modern **React `v19.1.0`**.  
-Through multiple iterations, I refactored the codebase to improve UX, accessibility, and audio interactivity.  
-The final build supports both visual and auditory experiences, following modern frontend best practices.
+- Next.js (App Router)
+- React (with useEffect, state/event hooks)
+- Vercel (preview + production deploys)
+- ElevenLabs API (real-time voice generation)
+- Custom Audio Handling (preloading, autoplay workarounds)
+- Responsive UI + Accessibility
 
-## Features 👱🏻‍♂️ 👩🏽 🧑🏿‍🦱 👧🏻
+## ✨ Key Features 👱🏻‍♂️ 👩🏽 🧑🏿‍🦱 👧🏻
 
-- 🖱️ Click on any character to hear and/or read their response.
-- 🗣️ Each character has a unique voice.
-- 🫵 Keep clicking to uncover the story.
-- 🎯 One unusual mystery, one quirky surprise at the end.
-- 🌙 Dark mode-friendly, responsive, and accessible.
-- 🔇 Mute and resume sound via toggle.
-- 🔁 Replay the game anytime with a single click.
-- ⚠️ *Voice not playing?* The free **VoiceRSS** API has a daily limit of 350 requests.
+- 🎤 Dynamic voice generation via serverless /api/speech
+- 🧠 Intelligent voice warm-up strategy to prevent first-click delays
+- 🎨 Dark mode and light mode styles
+- 🎯 Fully responsive layout with high-DPI image optimization
+- ♿ Accessible controls and keyboard focus support
+- 🧪 Thoughtfully separated RETRY_GAME and RESTART_GAME logic
 
-## 🫶 Accessibility (A11y)
+## 🚀 What I Learned
 
-This app includes accessibility enhancements to support a more inclusive experience:
+This was more than a technical upgrade — it became a personal milestone. Through this rebuild, I deepened my skills in:
+- Full React-to-Next migration
+- Understanding client/server boundaries
+- Audio playback quirks and modern browser behavior
+- Optimizing UX and performance under real-world constraints
 
-- **Keyboard Navigation:** All interactive elements (e.g., character cards, cookie) are fully navigable using Tab, Enter, and Space.
+## 🌐 Live App
+https://whoatethecookie.fun
 
-- **Screen Reader Support:** Descriptive aria-labels, meaningful alt text, and live regions are used to ensure important information is announced.
+🎯 Lighthouse Scores: 100/100/100/100 (Performance, Accessibility, Best Practices, SEO)
 
-- **Focus Management:** Visual focus outlines and controlled focus behavior help users stay oriented during interactions.
+## 🙏 Shoutout
+HUGE kudos to ChatGPT-4o from OpenAI — an incredible AI model that guided me through every part of this project, from debugging to deployment, and even domain setup.
 
-- **Motion Preferences:** Animation effects respect users with prefers-reduced-motion enabled in system settings.
+> 💡 Pro tip: Turn on personalization — it helps the AI adapt to your learning goals, coding style, and project flow.
 
-- **Semantic Roles:** Interactive UI components include semantic roles such as button for better assistive tech compatibility.
-
-Accessibility was verified using:
-
-- [Lighthouse](https://developer.chrome.com/docs/lighthouse/accessibility/scoring) audit (100% score)
-
-- Keyboard-only testing
-
-- VoiceOver screen reader testing on macOS
-
-We believe everyone should be able to discover who ate the cookie — regardless of ability. 🍪
-
-## 👩🏻‍💻 Tech Stack
-
-- [React 19](https://react.dev/)
-- [Vite](https://vitejs.dev/)
-- CSS Grid & animations
-- Custom styling (no UI framework)
-- Deployed via [Vercel](https://vercel.com)
-
-## 🚀 Run Locally
-
-```bash
-git clone https://github.com/zcdev/who-ate-the-cookie.git
-cd easter-eggs-festival
-npm install
-npm run dev
-```
-
-## 🧠 Developer Notes
-This project began as a VoiceRSS experiment — and unexpectedly evolved into a quirky voice-driven game.
-Along the way, I explored audio handling, promise chains, accessibility, and DOM interaction.
-
-Read the [dev notes](./dev-notes.md) for more behind-the-scenes discoveries.
-
-## 🙏 Acknowledgements
-
-🤖 OpenAI’s ChatGPT — For refactoring help, best practices, and great developer humor.
-
-Created by ZCDEV — designed, developed, and deployed with 😂
+📁 Repo created and maintained by [Zoe Chang](https://github.com/zcdev)
+🍪 Made with love and a lot of cookies.
