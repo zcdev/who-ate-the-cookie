@@ -15,14 +15,12 @@ export const metadata = {
       url: 'https://whoatethecookie.fun/who-ate-the-cookie-og-img.png',
       alt: 'Who Ate the Cookie?',
     },
-    icon: 'https://whoatethecookie.fun/who-ate-the-cookie-favicon.ico',
   },
   twitter: {
     images: {
       url: 'https://whoatethecookie.fun/who-ate-the-cookie-og-img.png',
       alt: 'Who Ate the Cookie?',
     },
-    icon: 'https://whoatethecookie.fun/who-ate-the-cookie-favicon.ico',
   }
 };
 
