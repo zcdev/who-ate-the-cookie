@@ -8,7 +8,7 @@
 Play it here: [whoatethecookie.fun](https://whoatethecookie.fun) — choose a character and uncover the mystery!
 
 ## 📖 Overview
-**Deliverable:** A playful, voice-interactive detective game built with Next.js. Designed for accessibility and performance, with an engaging narrative that keeps players curious to the end.
+**Deliverable:** A playful, interactive, voice-enhanced detective game built with Next.js. Designed for accessibility and performance, with an engaging narrative that keeps players curious to the end.
 
 **Purpose:** For anyone who enjoys quirky, imaginative mystery games with a surprising twist.
 
@@ -22,10 +22,9 @@ Play it here: [whoatethecookie.fun](https://whoatethecookie.fun) — choose a ch
 ## ✨ Features 👱🏻‍♂️ 👩🏽 🧑🏿‍🦱 👧🏻
 - Generate dynamic character voices via serverless `/api/speech`
 - Warm up voices intelligently to avoid first-click delays
-- Toggle between dark and light modes
+- Toggle between different game modes
 - Enjoy a fully responsive layout with high-DPI image optimization
 - Navigate easily with accessible controls and keyboard support
-- Separate RETRY_GAME vs. RESTART_GAME logic for clarity
 - Achieve Lighthouse scores of 100/100/100/100 (Performance, Accessibility, Best Practices, SEO)
 
 ## 📚 What I Learned
@@ -46,7 +45,6 @@ cd who-ate-the-cookie
 HUGE kudos to [ChatGPT-4o](https://openai.com/) — an incredible AI collaborator that <em>**guided**</em> me through every part of this project, from debugging to deployment (and even domain setup).  
 
 > 💡 Pro tip: Enable personalization — it helps the AI adapt to your learning goals, coding style, and project flow. (I wasn’t vibe coding!)
-
 
 📁 Repo created and maintained by [Zoe Chang](https://github.com/zcdev)  
 🍪 Made with love (and lots of cookies).  
