@@ -10,7 +10,7 @@ Play it here: [whoatethecookie.fun](https://whoatethecookie.fun) — choose a ch
 ## 📖 Overview
 **Deliverable:** A playful, interactive, voice-enhanced detective game built with Next.js. Designed for accessibility and performance, with an engaging narrative that keeps players curious to the end.
 
-**Purpose:** For anyone who enjoys quirky, imaginative mystery games with a surprising twist.
+**Purpose:** To offer a fun, quirky mystery game that blends imaginative storytelling with a surprising twist.
 
 ## 🛠️ Tech Stack
 
@@ -34,8 +34,6 @@ Play it here: [whoatethecookie.fun](https://whoatethecookie.fun) — choose a ch
 - Optimizing UX and performance under real-world constraints
 
 ## ⚡ Getting Started
-
-### 1. Clone the repo
 ```
 git clone https://github.com/zcdev/who-ate-the-cookie.git
 cd who-ate-the-cookie
