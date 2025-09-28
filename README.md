@@ -1,45 +1,55 @@
 # Who Ate the Cookie 🍪
-A playful, voice-interactive guessing game built with Next.js — now live in production with 100/100 Lighthouse scores across the board.
 
-## 🔎 What It Is
+[![Built with Next.js](https://img.shields.io/badge/Built%20with-Next.js-000000?logo=nextdotjs&logoColor=white)](https://nextjs.org/)
+[![React.js](https://img.shields.io/badge/React.js-61DAFB?logo=react&logoColor=white)](https://react.dev/)
+[![Vercel](https://img.shields.io/badge/Deployed%20on-Vercel-000000?logo=vercel&logoColor=white)](https://vercel.com/)
 
-"Who Ate the Cookie?" is a quirky web app where users click on characters to hear who took the last cookie. Behind the fun lies a solid architecture for voice playback, client-server interaction, and web performance best practices.
+## 🌐 Live Demo
+Play it here: [whoatethecookie.fun](https://whoatethecookie.fun) — choose a character and uncover the mystery!
+
+## 📖 Overview
+**Deliverable:** A playful, voice-interactive detective game built with Next.js. Designed for accessibility and performance, with an engaging narrative that keeps players curious to the end.
+
+**Purpose:** For anyone who enjoys quirky, imaginative mystery games with a surprising twist.
 
 ## 🛠️ Tech Stack
 
-- Next.js (App Router)
-- React (with useEffect, state/event hooks)
-- Vercel (preview + production deploys)
-- ElevenLabs API (real-time voice generation)
-- Custom Audio Handling (preloading, autoplay workarounds)
-- Responsive UI + Accessibility
+- **Framework:** Next.js / React.js
+- **Language:** JavaScript (ES6+)
+- **APIs / Libraries:** ElevenLabs API (real-time voice generation)
+- **Deployment:** Vercel
 
-## ✨ Key Features 👱🏻‍♂️ 👩🏽 🧑🏿‍🦱 👧🏻
+## ✨ Features 👱🏻‍♂️ 👩🏽 🧑🏿‍🦱 👧🏻
+- Generate dynamic character voices via serverless `/api/speech`
+- Warm up voices intelligently to avoid first-click delays
+- Toggle between dark and light modes
+- Enjoy a fully responsive layout with high-DPI image optimization
+- Navigate easily with accessible controls and keyboard support
+- Separate RETRY_GAME vs. RESTART_GAME logic for clarity
+- Achieve Lighthouse scores of 100/100/100/100 (Performance, Accessibility, Best Practices, SEO)
 
-- 🎤 Dynamic voice generation via serverless /api/speech
-- 🧠 Intelligent voice warm-up strategy to prevent first-click delays
-- 🎨 Dark mode and light mode styles
-- 🎯 Fully responsive layout with high-DPI image optimization
-- ♿ Accessible controls and keyboard focus support
-- 🧪 Thoughtfully separated RETRY_GAME and RESTART_GAME logic
-
-## 🚀 What I Learned
-
-This was more than a technical upgrade — it became a personal milestone. Through this rebuild, I deepened my skills in:
+## 📚 What I Learned
 - Full React-to-Next migration
 - Understanding client/server boundaries
 - Audio playback quirks and modern browser behavior
 - Optimizing UX and performance under real-world constraints
 
-## 🌐 Live App
-https://whoatethecookie.fun
+## ⚡ Getting Started
 
-🎯 Lighthouse Scores: 100/100/100/100 (Performance, Accessibility, Best Practices, SEO)
+### 1. Clone the repo
+```
+git clone https://github.com/zcdev/who-ate-the-cookie.git
+cd who-ate-the-cookie
+```
 
-## 🙏 Shoutout
-HUGE kudos to ChatGPT-4o from OpenAI — an incredible AI model that guided me through every part of this project, from debugging to deployment, and even domain setup.
+## 🙏 Credits
+HUGE kudos to [ChatGPT-4o](https://openai.com/) — an incredible AI collaborator that <em>**guided**</em> me through every part of this project, from debugging to deployment (and even domain setup).  
 
-> 💡 Pro tip: Turn on personalization — it helps the AI adapt to your learning goals, coding style, and project flow.
+> 💡 Pro tip: Enable personalization — it helps the AI adapt to your learning goals, coding style, and project flow. (I wasn’t vibe coding!)
 
-📁 Repo created and maintained by [Zoe Chang](https://github.com/zcdev)
-🍪 Made with love and a lot of cookies.
+
+📁 Repo created and maintained by [Zoe Chang](https://github.com/zcdev)  
+🍪 Made with love (and lots of cookies).  
+
+![GitHub repo size](https://img.shields.io/github/repo-size/zcdev/who-ate-the-cookie)
+![GitHub last commit](https://img.shields.io/github/last-commit/zcdev/who-ate-the-cookie)
