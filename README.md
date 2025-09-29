@@ -25,11 +25,11 @@ Play it here: [whoatethecookie.fun](https://whoatethecookie.fun) — choose a ch
 - Toggle between different game modes
 - Enjoy a fully responsive layout with high-DPI image optimization
 - Navigate easily with accessible controls and keyboard support
-- Achieve Lighthouse scores of 100/100/100/100 (Performance, Accessibility, Best Practices, SEO)
+- Achieve Lighthouse scores of 100 / 100 / 100 / 100 (Performance, Accessibility, Best Practices, SEO)
 
 ## 📚 What I Learned
 - Full React-to-Next migration
-- Understanding client/server boundaries
+- Understanding client / server boundaries
 - Audio playback quirks and modern browser behavior
 - Optimizing UX and performance under real-world constraints
 
@@ -44,8 +44,8 @@ HUGE kudos to [ChatGPT-4o](https://openai.com/) — an incredible AI collaborato
 
 > 💡 Pro tip: Enable personalization — it helps the AI adapt to your learning goals, coding style, and project flow. (I wasn’t vibe coding!)
 
-📁 Repo created and maintained by [Zoe Chang](https://github.com/zcdev)  
-🍪 Made with love (and lots of cookies).  
+📁 Repo created and maintained by [Zoe Chang](https://github.com/zcdev).        
+🍪 Built with love (and lots of cookies).  
 
 ![GitHub repo size](https://img.shields.io/github/repo-size/zcdev/who-ate-the-cookie)
 ![GitHub last commit](https://img.shields.io/github/last-commit/zcdev/who-ate-the-cookie)
