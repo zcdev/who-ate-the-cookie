@@ -57,48 +57,15 @@ export default function Main() {
         dispatch({ type: 'ANIMATE_TOGGLE' });
     }
 
-    const voiceIds = [charactersList[0].voiceId, charactersList[1].voiceId, charactersList[2].voiceId, charactersList[3].voiceId];
-
-    // Pre-warm ElevenLabs voice generation (runs once on mount)
     useEffect(() => {
-        // Check sessionStorage to see if voices were already warmed up
-        const alreadyWarmedUp = sessionStorage.getItem('voicesWarmedUp');
-
-        if (alreadyWarmedUp) {
-            console.log('✅ Skipped warm-up (already cached)');
-            return;
-        }
-
-        const warmUp = async () => {
-            try {
-                // Warm up voices one by one to avoid triggering rate limits
-                for (const id of voiceIds) {
-                    await fetch('/api/speech', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ message: '.', voiceId: id }),
-                    });
-
-                    // Wait 300ms between requests to avoid 429 (Too Many Requests)
-                    await new Promise(resolve => setTimeout(resolve, 300));
-                }
-
-                console.log('✅ Voices warmed up successfully for this session.');
-
-                // Set session flag to prevent re-running warm-up on refresh
-                sessionStorage.setItem('voicesWarmedUp', 'true');
-            } catch (err) {
-                console.error('❌ Warm-up failed:', err);
-            }
-        };
-
-        warmUp();
-    }, []);
-
-    // Trigger voice playback when a new message arrives and audio is unmuted
-    useEffect(() => {
+        // Check if there's a message and sound is not muted
         if (!message || isMuted) return;
-        fetchAndPlayVoice(message, voiceId, dispatch);
+        // Then, fetch voices with the message upon the state of the game
+        try {
+            fetchAndPlayVoice(message, voiceId, dispatch);
+        } catch (err) {
+            console.error('❌ Warm-up failed:', err);
+        }       
     }, [message, voiceId, isMuted]);
 
     return (
