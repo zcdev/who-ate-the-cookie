@@ -10,10 +10,10 @@ import fetchAndPlayVoice from '../lib/speechHelpers.js'
 
 // Character data and their attributes
 const charactersList = [
-    { "id": 0, "name": "David", "img": "icon_david", "voiceId": "GBv7mTt0atIp3Br8iCZE", "message": "I think it’s Sam.", "active": false },
-    { "id": 1, "name": "Lisa", "img": "icon_lisa", "voiceId": "zrHiDhphv9ZnVXBqCLjz", "message": "Ask David.", "active": false },
-    { "id": 2, "name": "Sam", "img": "icon_sam", "voiceId": "SOYHLrjzK2X1ezoPC6cr", "message": "It must be Julia.", "active": false },
-    { "id": 3, "name": "Julia", "img": "icon_julia", "voiceId": "MF3mGyEYCl7XYWbV9V6O", "message": "Lisa knows.", "active": false }
+    { "id": 0, "name": "David", "img": "icon_david", "voiceId": "jg80CzGPSxCeNz7dJVDZ", "message": "I think it’s Sam.", "active": false }, // Tom
+    { "id": 1, "name": "Lisa", "img": "icon_lisa", "voiceId": "zrHiDhphv9ZnVXBqCLjz", "message": "Ask David.", "active": false }, // Mimi
+    { "id": 2, "name": "Sam", "img": "icon_sam", "voiceId": "SOYHLrjzK2X1ezoPC6cr", "message": "It must be Julia.", "active": false }, // Harry
+    { "id": 3, "name": "Julia", "img": "icon_julia", "voiceId": "MF3mGyEYCl7XYWbV9V6O", "message": "Lisa knows.", "active": false } // Elli
 ];
 
 export default function Main() {
