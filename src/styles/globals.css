@@ -249,12 +249,11 @@ button:nth-child(2) {
 
 /* Add zoom/jitter effect to selected character icon */
 .active-zoom {
-  animation: zoom 1.5s cubic-bezier(0, 0, 0, 0) forwards;
+  animation: 1.3s zoom 1s cubic-bezier(0, 0, 0, 0) forwards;
   transform: translate3d(0, 0, 0);
 }
 
 @keyframes zoom {
-
   10%,
   90% {
     transform: translate3d(-2px, 0, 0) scale(1.0);
