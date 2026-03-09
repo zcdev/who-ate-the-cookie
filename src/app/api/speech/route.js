@@ -1,5 +1,5 @@
 import dotenv from 'dotenv'
-dotenv.config({ path: 'src/.env.local' })
+dotenv.config({ path: '/.env.local' })
 
 export async function POST(request) {
 

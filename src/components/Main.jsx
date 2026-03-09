@@ -1,6 +1,6 @@
 'use client';
 
-import { useReducer, useState, useEffect, useRef } from 'react';
+import { useReducer, useState, useEffect } from 'react';
 import reducer, { initialState } from 'lib/reducer';
 import Header from './Header';
 import CharacterCard from './CharacterCard';
@@ -11,9 +11,9 @@ import fetchAndPlayVoice from '../lib/speechHelpers.js'
 // Character data and their attributes
 const charactersList = [
     { "id": 0, "name": "David", "img": "icon_david", "voiceId": "jg80CzGPSxCeNz7dJVDZ", "message": "I think it’s Sam.", "active": false }, // Tom
-    { "id": 1, "name": "Lisa", "img": "icon_lisa", "voiceId": "zrHiDhphv9ZnVXBqCLjz", "message": "Ask David.", "active": false }, // Mimi
-    { "id": 2, "name": "Sam", "img": "icon_sam", "voiceId": "SOYHLrjzK2X1ezoPC6cr", "message": "It must be Julia.", "active": false }, // Harry
-    { "id": 3, "name": "Julia", "img": "icon_julia", "voiceId": "MF3mGyEYCl7XYWbV9V6O", "message": "Lisa knows.", "active": false } // Elli
+    { "id": 1, "name": "Lisa", "img": "icon_lisa", "voiceId": "OHY6EjdeHKeQymoihwfz", "message": "Ask David.", "active": false }, // Riyanka
+    { "id": 2, "name": "Sam", "img": "icon_sam", "voiceId": "VL5ebgNYJvE3FN82TFwj", "message": "It must be Julia.", "active": false }, // Sterling
+    { "id": 3, "name": "Julia", "img": "icon_julia", "voiceId": "zmcVlqmyk3Jpn5AVYcAL", "message": "Lisa knows.", "active": false } // Sapphire
 ];
 
 export default function Main() {
