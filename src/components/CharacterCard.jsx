@@ -12,15 +12,15 @@ export default function characterCard({ character, onClick, selectedID, isAnimat
         className={`character${isAnimating ? ' active-glow' : ''}`}
         onClick={onClick}
         key={character.id}>
-        <p className="name">
-          {character.name}
-        </p>
         <div className={`icon${isAnimating ? ' active-zoom' : ''}`}>
           <ResponsiveImage
             fileName={character.img}
             alt="Character icon"
           />
         </div>
+        <span className="name">
+          {character.name}
+        </span>
       </button>
     </li>
   )

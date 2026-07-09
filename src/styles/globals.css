@@ -222,8 +222,9 @@ button:nth-child(2) {
 }
 
 .name {
-  font-size: 1.5em;
-  margin-bottom: 10px;
+  display: inline-block;
+  font-size: 1em;
+  margin-top: 10px;
 }
 
 .icon img {
