@@ -44,7 +44,7 @@ h1 {
   font-weight: 400;
   margin-bottom: 0;
   line-height: 1;
-  color: #875546;
+  color: #7c4d3c;
 }
 
 h2 {
@@ -61,10 +61,10 @@ h2 {
 }
 
 .game-mode {
-  background-color: #875546;
+  background-color: #7c4d3c;
   color: #fff;
   display: inline-block;
-  font-size: 0.95em;
+  font-size: 1em;
   font-weight: 600;
   margin: 0.2rem 0 0.74rem;
   padding: 0.3rem 0.5rem;
